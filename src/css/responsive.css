@@ -20,4 +20,10 @@
   /* Boutons en colonne plutôt qu'en ligne */
   .actions { flex-direction: column; }
   .btn { width: 100%; justify-content: center; }
+
+  /* Bibliothèque : réduire la hauteur de la liste sur mobile */
+  .library-list { max-height: 300px; }
+
+  /* Modales pleine largeur sur mobile */
+  .modal { max-width: 100%; }
 }

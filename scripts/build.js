@@ -37,7 +37,8 @@ async function bundle() {
     bundle: true,       // Résoudre tous les imports
     format: 'iife',     // Format auto-exécutable (pas besoin de type="module")
     minify: true,       // Réduire la taille
-    write: false        // Ne pas écrire sur disque, récupérer le contenu en mémoire
+    write: false,       // Ne pas écrire sur disque, récupérer le contenu en mémoire
+    loader: { '.json': 'json' }  // Permettre l'import de fichiers JSON
   });
 
   const js = result.outputFiles[0].text;

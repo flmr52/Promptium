@@ -2,13 +2,360 @@
  * ============================================================
  * CSS : Bibliothèque de prompts
  * ============================================================
- * Styles du panneau latéral de la bibliothèque.
- * Sera complété au Sprint 3 avec les cartes de prompts,
- * la barre de recherche et les filtres de catégorie.
+ * Styles du panneau latéral : header, recherche, onglets de
+ * catégories, cartes de prompts et états (hover, favori, vide).
  * ============================================================
  */
 
-/* Panneau masqué par défaut, activé au Sprint 3 */
+/* ======================== PANNEAU PRINCIPAL ======================== */
+
 .library-panel {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+/* ======================== HEADER DU PANNEAU ======================== */
+
+.library-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.library-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* Sélecteur de tri */
+.library-sort {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.375rem 0.625rem;
+  font-size: 0.6875rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+}
+
+.library-sort:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+/* ======================== BARRE DE RECHERCHE ======================== */
+
+.library-search {
+  margin-bottom: 0.75rem;
+}
+
+.library-search input {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8125rem;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  transition: border-color 0.2s;
+}
+
+.library-search input::placeholder {
+  color: var(--text-muted);
+}
+
+.library-search input:focus {
+  outline: none;
+  border-color: rgba(91, 141, 238, 0.5);
+  box-shadow: 0 0 0 2px rgba(91, 141, 238, 0.1);
+}
+
+/* ======================== ONGLETS DE CATÉGORIES ======================== */
+
+.library-categories {
+  display: flex;
+  gap: 0.375rem;
+  margin-bottom: 1rem;
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+  /* Masquer la scrollbar tout en gardant le scroll fonctionnel */
+  scrollbar-width: none;
+}
+
+.library-categories::-webkit-scrollbar {
   display: none;
+}
+
+/* Bouton onglet de catégorie */
+.cat-tab {
+  flex-shrink: 0;
+  padding: 0.3125rem 0.625rem;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: 'Inter', sans-serif;
+  white-space: nowrap;
+}
+
+.cat-tab:hover {
+  color: var(--text-secondary);
+  border-color: var(--border-light);
+}
+
+/* Onglet actif */
+.cat-tab.active {
+  background: var(--accent-soft);
+  border-color: rgba(91, 141, 238, 0.3);
+  color: var(--accent);
+}
+
+/* ======================== LISTE DES PROMPTS ======================== */
+
+.library-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 400px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+/* Message quand aucun prompt trouvé */
+.library-empty {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+}
+
+/* ======================== CARTE DE PROMPT ======================== */
+
+.prompt-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.75rem 1rem;
+  transition: all 0.15s;
+  cursor: default;
+}
+
+.prompt-card:hover {
+  border-color: var(--border-light);
+  background: var(--surface-hover);
+}
+
+/* Ligne supérieure : titre + bouton favori */
+.card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.375rem;
+}
+
+.card-title {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+
+/* Bouton étoile favori */
+.card-fav {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  color: var(--text-muted);
+  padding: 0.125rem 0.25rem;
+  transition: color 0.15s;
+}
+
+.card-fav:hover {
+  color: var(--accent);
+}
+
+.card-fav.fav-active {
+  color: #f59e0b;
+}
+
+/* Ligne de métadonnées : catégorie, badge, tags */
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.card-cat {
+  font-size: 0.625rem;
+  color: var(--text-secondary);
+  background: var(--accent-soft);
+  padding: 0.125rem 0.5rem;
+  border-radius: 10px;
+}
+
+.card-badge {
+  font-size: 0.5625rem;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  padding: 0.0625rem 0.375rem;
+  border-radius: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.card-tag {
+  font-size: 0.5625rem;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 0.0625rem 0.375rem;
+  border-radius: 6px;
+}
+
+/* Boutons d'action sous chaque carte */
+.card-actions {
+  display: flex;
+  gap: 0.375rem;
+}
+
+.card-btn {
+  font-size: 0.6875rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.15s;
+}
+
+.card-btn:hover {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-color: rgba(91, 141, 238, 0.2);
+}
+
+.card-btn.card-delete:hover {
+  background: var(--danger-soft);
+  color: var(--danger);
+  border-color: rgba(239, 68, 68, 0.2);
+}
+
+/* ======================== MODALES ======================== */
+
+/* Overlay semi-transparent couvrant tout l'écran */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  animation: modal-fade-in 0.2s ease;
+  padding: 1rem;
+}
+
+/* Animation de fermeture */
+.modal-overlay.modal-closing {
+  animation: modal-fade-out 0.2s ease forwards;
+}
+
+@keyframes modal-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modal-fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* Boîte modale */
+.modal {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: var(--shadow-lg);
+  animation: modal-slide-in 0.2s ease;
+}
+
+@keyframes modal-slide-in {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-header {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+
+.modal-body {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  margin-bottom: 1.25rem;
+  line-height: 1.6;
+}
+
+/* Champ de formulaire dans une modale */
+.modal-field {
+  margin-bottom: 0.75rem;
+}
+
+.modal-field label {
+  display: block;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.modal-input {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8125rem;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  transition: border-color 0.2s;
+}
+
+.modal-input:focus {
+  outline: none;
+  border-color: rgba(91, 141, 238, 0.5);
+}
+
+/* Boutons d'action en bas de modale */
+.modal-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
 }

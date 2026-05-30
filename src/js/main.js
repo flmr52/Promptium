@@ -5,15 +5,23 @@
  * Fichier principal de l'application Promptium.
  * Initialise les modules au chargement de la page :
  * - Migration du schéma localStorage si nécessaire
+ * - Chargement des prompts par défaut
  * - Restauration de la langue préférée
  * - Initialisation du builder C.R.A.F.T.
+ * - Initialisation de la bibliothèque
  * - Branchement du sélecteur de langue (FR/EN)
+ * - Communication builder ↔ bibliothèque
  * ============================================================
  */
 
 import { setLang, getLang } from './modules/i18n.js';
 import { getPreferences, setPreferences, migrate } from './modules/storage.js';
-import { initBuilder, applyI18n } from './ui/builder-ui.js';
+import { loadDefaults } from './modules/library.js';
+import { initBuilder, applyI18n, setFieldValues, hasContent } from './ui/builder-ui.js';
+import { initLibrary, renderPromptList } from './ui/library-ui.js';
+import { showConfirm } from './ui/modal-ui.js';
+import { t } from './modules/i18n.js';
+import defaultData from '../data/default-prompts.json';
 
 /**
  * Fonction d'initialisation principale.
@@ -22,6 +30,9 @@ import { initBuilder, applyI18n } from './ui/builder-ui.js';
 function init() {
   // Exécuter les migrations de schéma (prépare les futures mises à jour)
   migrate();
+
+  // Charger les prompts et catégories par défaut depuis le JSON embarqué
+  loadDefaults(defaultData);
 
   // Restaurer la langue sauvegardée dans les préférences utilisateur
   const prefs = getPreferences();
@@ -33,8 +44,14 @@ function init() {
   // Initialiser le formulaire C.R.A.F.T.
   initBuilder();
 
+  // Initialiser la bibliothèque
+  initLibrary();
+
   // Initialiser les boutons de changement de langue
   initLangSwitcher();
+
+  // Écouter l'événement "charger un prompt dans le builder"
+  initPromptLoading();
 }
 
 /**
@@ -67,6 +84,45 @@ function initLangSwitcher() {
 
   // État initial
   updateActive();
+}
+
+/**
+ * Écoute l'événement personnalisé émis par la bibliothèque
+ * quand l'utilisateur clique "Charger" sur un prompt.
+ * Pré-remplit les champs du builder avec le contenu du prompt sélectionné.
+ */
+function initPromptLoading() {
+  document.addEventListener('promptium:load-prompt', async (e) => {
+    const prompt = e.detail;
+    if (!prompt || !prompt.content) return;
+
+    // Si le builder contient déjà du texte, demander confirmation
+    if (hasContent()) {
+      const confirmed = await showConfirm(
+        t('modal_replace_title'),
+        t('modal_replace_message')
+      );
+      if (!confirmed) return;
+    }
+
+    // Résoudre le contenu (bilingue → texte simple dans la langue active)
+    const lang = getLang();
+    const content = {};
+    const fields = ['context', 'role', 'action', 'format', 'target'];
+    for (const field of fields) {
+      const value = prompt.content[field];
+      if (!value) {
+        content[field] = '';
+      } else if (typeof value === 'string') {
+        content[field] = value;
+      } else {
+        content[field] = value[lang] || value.fr || '';
+      }
+    }
+
+    // Pré-remplir le builder
+    setFieldValues(content);
+  });
 }
 
 // Lancer l'initialisation quand le DOM est prêt
