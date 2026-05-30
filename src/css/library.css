@@ -1,4 +1,14 @@
-/* Library panel - will be populated in Sprint 3 */
+/**
+ * ============================================================
+ * CSS : Bibliothèque de prompts
+ * ============================================================
+ * Styles du panneau latéral de la bibliothèque.
+ * Sera complété au Sprint 3 avec les cartes de prompts,
+ * la barre de recherche et les filtres de catégorie.
+ * ============================================================
+ */
+
+/* Panneau masqué par défaut, activé au Sprint 3 */
 .library-panel {
   display: none;
 }

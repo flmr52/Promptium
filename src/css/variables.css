@@ -1,24 +1,47 @@
+/**
+ * ============================================================
+ * CSS : Variables (Design Tokens)
+ * ============================================================
+ * Définit toutes les couleurs, espacements et rayons utilisés
+ * dans l'application. Modifier ces variables change le thème
+ * globalement sans toucher aux autres fichiers CSS.
+ * ============================================================
+ */
+
 :root {
-  --bg: #0b0d13;
-  --bg-elevated: #10131a;
-  --surface: #151921;
-  --surface-hover: #1a1f2a;
-  --border: rgba(255, 255, 255, 0.06);
-  --border-light: rgba(255, 255, 255, 0.08);
-  --accent: #5b8dee;
-  --accent-soft: rgba(91, 141, 238, 0.1);
-  --accent-hover: rgba(91, 141, 238, 0.15);
-  --text: #e8eaf0;
-  --text-secondary: #8b92a5;
-  --text-muted: #555d70;
-  --danger: #ef4444;
-  --danger-soft: rgba(239, 68, 68, 0.1);
-  --success: #22c55e;
-  --success-soft: rgba(34, 197, 94, 0.1);
-  --radius: 12px;
-  --radius-lg: 16px;
-  --radius-sm: 8px;
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
+  /* --- Arrière-plans --- */
+  --bg: #0b0d13;                              /* Fond principal (très sombre) */
+  --bg-elevated: #10131a;                     /* Fond légèrement surélevé */
+  --surface: #151921;                         /* Surface des cartes et panneaux */
+  --surface-hover: #1a1f2a;                   /* Surface au survol */
+
+  /* --- Bordures --- */
+  --border: rgba(255, 255, 255, 0.06);        /* Bordure subtile */
+  --border-light: rgba(255, 255, 255, 0.08);  /* Bordure légèrement plus visible */
+
+  /* --- Couleur d'accent (bleu principal) --- */
+  --accent: #5b8dee;                          /* Bleu principal */
+  --accent-soft: rgba(91, 141, 238, 0.1);    /* Bleu très dilué (fonds de boutons) */
+  --accent-hover: rgba(91, 141, 238, 0.15);  /* Bleu dilué au survol */
+
+  /* --- Textes --- */
+  --text: #e8eaf0;                            /* Texte principal (quasi blanc) */
+  --text-secondary: #8b92a5;                  /* Texte secondaire (gris clair) */
+  --text-muted: #555d70;                      /* Texte atténué (hints, placeholders) */
+
+  /* --- Couleurs sémantiques --- */
+  --danger: #ef4444;                          /* Rouge : suppression, erreur */
+  --danger-soft: rgba(239, 68, 68, 0.1);     /* Rouge dilué (fond bouton danger) */
+  --success: #22c55e;                         /* Vert : succès, confirmation */
+  --success-soft: rgba(34, 197, 94, 0.1);    /* Vert dilué */
+
+  /* --- Rayons de bordure --- */
+  --radius: 12px;                             /* Rayon standard */
+  --radius-lg: 16px;                          /* Rayon large (cartes principales) */
+  --radius-sm: 8px;                           /* Rayon petit (badges, pills) */
+
+  /* --- Ombres --- */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);   /* Ombre légère */
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);  /* Ombre moyenne */
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);  /* Ombre prononcée */
 }

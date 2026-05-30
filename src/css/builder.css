@@ -1,4 +1,14 @@
-/* Header */
+/**
+ * ============================================================
+ * CSS : Builder C.R.A.F.T.
+ * ============================================================
+ * Styles du formulaire principal : header avec logo, sélecteur
+ * de langue, carte des 5 champs et zone de résultat Markdown.
+ * ============================================================
+ */
+
+/* ======================== HEADER ======================== */
+
 header {
   display: flex;
   align-items: center;
@@ -8,6 +18,7 @@ header {
   border-bottom: 1px solid var(--border);
 }
 
+/* Logo + nom de marque */
 .brand {
   display: flex;
   align-items: center;
@@ -19,6 +30,7 @@ header {
   height: 60px;
   border-radius: 14px;
   overflow: hidden;
+  /* Lueur bleue autour de l'icône */
   box-shadow: 0 0 16px rgba(91, 141, 238, 0.2), 0 0 4px rgba(91, 141, 238, 0.1);
 }
 
@@ -28,6 +40,7 @@ header {
   object-fit: cover;
 }
 
+/* Titre "Promptium" avec dégradé blanc→bleu */
 .brand-name {
   font-size: 1.75rem;
   font-weight: 700;
@@ -38,6 +51,7 @@ header {
   letter-spacing: -0.03em;
 }
 
+/* Sous-titre "Boost your AI" */
 .brand-sub {
   font-size: 0.75rem;
   color: var(--text-secondary);
@@ -45,7 +59,8 @@ header {
   letter-spacing: 0.03em;
 }
 
-/* Language */
+/* ======================== SÉLECTEUR DE LANGUE ======================== */
+
 .lang-flags {
   display: flex;
   gap: 4px;
@@ -66,7 +81,7 @@ header {
   border-radius: 7px;
   cursor: pointer;
   transition: all 0.15s;
-  opacity: 0.5;
+  opacity: 0.5;           /* Inactif par défaut */
 }
 
 .lang-flags button svg {
@@ -81,6 +96,7 @@ header {
   color: var(--text-secondary);
 }
 
+/* Bouton de langue actif */
 .lang-flags button.active {
   background: var(--accent-soft);
   opacity: 1;
@@ -92,7 +108,9 @@ header {
 
 .lang-flags button:hover { opacity: 0.8; }
 
-/* Fields card */
+/* ======================== CARTE DES CHAMPS ======================== */
+
+/* Conteneur principal des 5 champs C.R.A.F.T. */
 .fields-card {
   background: linear-gradient(180deg, var(--surface) 0%, rgba(15, 19, 28, 0.95) 100%);
   border: 1px solid rgba(91, 141, 238, 0.15);
@@ -101,12 +119,14 @@ header {
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3), 0 0 20px rgba(91, 141, 238, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.03);
 }
 
+/* Ligne colorée décorative en haut de la carte */
 .card-banner {
   height: 2px;
   background: linear-gradient(90deg, transparent, #5b8dee, #4facfe, #5b8dee, transparent);
   box-shadow: 0 1px 8px rgba(91, 141, 238, 0.3);
 }
 
+/* Chaque champ du formulaire (séparés par une bordure) */
 .field {
   padding: 1.125rem 1.5rem;
   border-bottom: 1px solid var(--border);
@@ -116,6 +136,7 @@ header {
 .field:last-child { border-bottom: none; }
 .field:hover { background: var(--surface-hover); }
 
+/* Ligne supérieure d'un champ : dot + label + hint */
 .field-top {
   display: flex;
   align-items: center;
@@ -123,6 +144,7 @@ header {
   margin-bottom: 0.5rem;
 }
 
+/* Point coloré indicateur (un par champ C.R.A.F.T.) */
 .field-dot {
   width: 8px;
   height: 8px;
@@ -130,23 +152,28 @@ header {
   flex-shrink: 0;
 }
 
+/* Couleurs distinctes pour chaque champ avec effet de lueur (glow) */
 .dot-c { background: #5b8dee; box-shadow: 0 0 6px rgba(91, 141, 238, 0.6), 0 0 14px rgba(91, 141, 238, 0.25); }
 .dot-r { background: #7ca8f4; box-shadow: 0 0 6px rgba(124, 168, 244, 0.6), 0 0 14px rgba(124, 168, 244, 0.25); }
 .dot-a { background: #4facfe; box-shadow: 0 0 6px rgba(79, 172, 254, 0.6), 0 0 14px rgba(79, 172, 254, 0.25); }
 .dot-f { background: #38bdf8; box-shadow: 0 0 6px rgba(56, 189, 248, 0.6), 0 0 14px rgba(56, 189, 248, 0.25); }
 .dot-t { background: #818cf8; box-shadow: 0 0 6px rgba(129, 140, 248, 0.6), 0 0 14px rgba(129, 140, 248, 0.25); }
 
+/* Label du champ (ex: "Contexte", "Rôle") */
 .field-title {
   font-size: 0.8125rem;
   font-weight: 600;
   color: var(--text);
 }
 
+/* Indice affiché à droite (ex: "Le pourquoi de la démarche") */
 .field-hint {
   font-size: 0.6875rem;
   color: var(--text-muted);
   margin-left: auto;
 }
+
+/* ======================== TEXTAREAS ======================== */
 
 textarea {
   width: 100%;
@@ -159,20 +186,23 @@ textarea {
   font-size: 0.8125rem;
   color: var(--text);
   line-height: 1.6;
-  resize: none;
+  resize: none;           /* Pas de redimensionnement manuel (auto-resize via JS) */
   transition: all 0.2s;
 }
 
 textarea::placeholder { color: var(--text-muted); }
 textarea:hover { border-color: var(--border-light); }
 
+/* État focus : bordure bleue + halo lumineux */
 textarea:focus {
   outline: none;
   border-color: rgba(91, 141, 238, 0.5);
   box-shadow: 0 0 0 2px rgba(91, 141, 238, 0.1), 0 0 16px rgba(91, 141, 238, 0.08);
 }
 
-/* Output */
+/* ======================== ZONE DE RÉSULTAT ======================== */
+
+/* Cachée par défaut, affichée via la classe .visible */
 .output {
   display: none;
   margin-top: 1.5rem;
@@ -181,11 +211,13 @@ textarea:focus {
 
 .output.visible { display: block; }
 
+/* Animation d'apparition */
 @keyframes fade-in {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* Label "Résultat généré" avec point lumineux animé */
 .output-label {
   font-size: 0.625rem;
   font-weight: 600;
@@ -198,6 +230,7 @@ textarea:focus {
   gap: 0.4rem;
 }
 
+/* Point bleu animé avant le label */
 .output-label::before {
   content: '';
   width: 6px;
@@ -208,11 +241,13 @@ textarea:focus {
   animation: neon-pulse 2s ease-in-out infinite;
 }
 
+/* Animation de pulsation du point néon */
 @keyframes neon-pulse {
   0%, 100% { box-shadow: 0 0 6px rgba(91, 141, 238, 0.6), 0 0 14px rgba(91, 141, 238, 0.3); }
   50% { box-shadow: 0 0 8px rgba(91, 141, 238, 0.8), 0 0 20px rgba(91, 141, 238, 0.4); }
 }
 
+/* Boîte contenant le Markdown généré */
 .output-box {
   background: linear-gradient(180deg, var(--surface) 0%, rgba(15, 19, 28, 0.95) 100%);
   border: 1px solid rgba(91, 141, 238, 0.1);
@@ -221,6 +256,7 @@ textarea:focus {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
+/* Texte monospace du résultat */
 .output-box pre {
   font-family: 'SF Mono', 'Consolas', monospace;
   font-size: 0.75rem;

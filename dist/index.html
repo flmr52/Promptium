@@ -4,36 +4,74 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Promptium — Boost your AI</title>
-  <style>
+
+  <!-- Chargement de la police Inter (Google Fonts) -->
+  <!-- Feuilles de style modulaires (inlinées en production par le script de build) -->
+    <style>
+/**
+ * ============================================================
+ * CSS : Variables (Design Tokens)
+ * ============================================================
+ * Définit toutes les couleurs, espacements et rayons utilisés
+ * dans l'application. Modifier ces variables change le thème
+ * globalement sans toucher aux autres fichiers CSS.
+ * ============================================================
+ */
+
 :root {
-  --bg: #0b0d13;
-  --bg-elevated: #10131a;
-  --surface: #151921;
-  --surface-hover: #1a1f2a;
-  --border: rgba(255, 255, 255, 0.06);
-  --border-light: rgba(255, 255, 255, 0.08);
-  --accent: #5b8dee;
-  --accent-soft: rgba(91, 141, 238, 0.1);
-  --accent-hover: rgba(91, 141, 238, 0.15);
-  --text: #e8eaf0;
-  --text-secondary: #8b92a5;
-  --text-muted: #555d70;
-  --danger: #ef4444;
-  --danger-soft: rgba(239, 68, 68, 0.1);
-  --success: #22c55e;
-  --success-soft: rgba(34, 197, 94, 0.1);
-  --radius: 12px;
-  --radius-lg: 16px;
-  --radius-sm: 8px;
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
+  /* --- Arrière-plans --- */
+  --bg: #0b0d13;                              /* Fond principal (très sombre) */
+  --bg-elevated: #10131a;                     /* Fond légèrement surélevé */
+  --surface: #151921;                         /* Surface des cartes et panneaux */
+  --surface-hover: #1a1f2a;                   /* Surface au survol */
+
+  /* --- Bordures --- */
+  --border: rgba(255, 255, 255, 0.06);        /* Bordure subtile */
+  --border-light: rgba(255, 255, 255, 0.08);  /* Bordure légèrement plus visible */
+
+  /* --- Couleur d'accent (bleu principal) --- */
+  --accent: #5b8dee;                          /* Bleu principal */
+  --accent-soft: rgba(91, 141, 238, 0.1);    /* Bleu très dilué (fonds de boutons) */
+  --accent-hover: rgba(91, 141, 238, 0.15);  /* Bleu dilué au survol */
+
+  /* --- Textes --- */
+  --text: #e8eaf0;                            /* Texte principal (quasi blanc) */
+  --text-secondary: #8b92a5;                  /* Texte secondaire (gris clair) */
+  --text-muted: #555d70;                      /* Texte atténué (hints, placeholders) */
+
+  /* --- Couleurs sémantiques --- */
+  --danger: #ef4444;                          /* Rouge : suppression, erreur */
+  --danger-soft: rgba(239, 68, 68, 0.1);     /* Rouge dilué (fond bouton danger) */
+  --success: #22c55e;                         /* Vert : succès, confirmation */
+  --success-soft: rgba(34, 197, 94, 0.1);    /* Vert dilué */
+
+  /* --- Rayons de bordure --- */
+  --radius: 12px;                             /* Rayon standard */
+  --radius-lg: 16px;                          /* Rayon large (cartes principales) */
+  --radius-sm: 8px;                           /* Rayon petit (badges, pills) */
+
+  /* --- Ombres --- */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);   /* Ombre légère */
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);  /* Ombre moyenne */
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);  /* Ombre prononcée */
 }
 
+/**
+ * ============================================================
+ * CSS : Base
+ * ============================================================
+ * Reset CSS minimal, styles du body et du conteneur principal.
+ * Applique le fond dégradé avec la grille subtile en arrière-plan.
+ * ============================================================
+ */
+
+/* Reset : supprime les marges/padding par défaut, utilise border-box */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
+/* Lissage des polices sur WebKit (Mac/iOS) */
 html { -webkit-font-smoothing: antialiased; }
 
+/* Corps de page avec fond sombre et dégradés radiaux décoratifs */
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   background: var(--bg);
@@ -41,12 +79,14 @@ body {
   min-height: 100vh;
   line-height: 1.5;
   position: relative;
+  /* Trois dégradés subtils pour donner de la profondeur */
   background-image:
     radial-gradient(ellipse 80% 60% at 50% 0%, rgba(91, 141, 238, 0.07), transparent 60%),
     radial-gradient(ellipse 60% 50% at 0% 80%, rgba(139, 92, 246, 0.04), transparent 50%),
     radial-gradient(ellipse 50% 40% at 100% 60%, rgba(56, 189, 248, 0.03), transparent 50%);
 }
 
+/* Grille de fond décorative (lignes très subtiles) */
 body::before {
   content: '';
   position: fixed;
@@ -55,18 +95,20 @@ body::before {
     linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
   background-size: 50px 50px;
-  pointer-events: none;
+  pointer-events: none;  /* Ne bloque pas les clics */
   z-index: 0;
 }
 
+/* Conteneur principal de l'application */
 .app {
   position: relative;
-  z-index: 1;
-  max-width: 640px;
-  margin: 0 auto;
+  z-index: 1;           /* Au-dessus de la grille de fond */
+  max-width: 640px;     /* Largeur maximale pour la lisibilité */
+  margin: 0 auto;       /* Centré horizontalement */
   padding: 2.5rem 1.5rem 4rem;
 }
 
+/* Pied de page */
 footer {
   text-align: center;
   padding: 2rem 0 1rem;
@@ -75,7 +117,17 @@ footer {
   letter-spacing: 0.02em;
 }
 
-/* Header */
+/**
+ * ============================================================
+ * CSS : Builder C.R.A.F.T.
+ * ============================================================
+ * Styles du formulaire principal : header avec logo, sélecteur
+ * de langue, carte des 5 champs et zone de résultat Markdown.
+ * ============================================================
+ */
+
+/* ======================== HEADER ======================== */
+
 header {
   display: flex;
   align-items: center;
@@ -85,6 +137,7 @@ header {
   border-bottom: 1px solid var(--border);
 }
 
+/* Logo + nom de marque */
 .brand {
   display: flex;
   align-items: center;
@@ -96,6 +149,7 @@ header {
   height: 60px;
   border-radius: 14px;
   overflow: hidden;
+  /* Lueur bleue autour de l'icône */
   box-shadow: 0 0 16px rgba(91, 141, 238, 0.2), 0 0 4px rgba(91, 141, 238, 0.1);
 }
 
@@ -105,6 +159,7 @@ header {
   object-fit: cover;
 }
 
+/* Titre "Promptium" avec dégradé blanc→bleu */
 .brand-name {
   font-size: 1.75rem;
   font-weight: 700;
@@ -115,6 +170,7 @@ header {
   letter-spacing: -0.03em;
 }
 
+/* Sous-titre "Boost your AI" */
 .brand-sub {
   font-size: 0.75rem;
   color: var(--text-secondary);
@@ -122,7 +178,8 @@ header {
   letter-spacing: 0.03em;
 }
 
-/* Language */
+/* ======================== SÉLECTEUR DE LANGUE ======================== */
+
 .lang-flags {
   display: flex;
   gap: 4px;
@@ -143,7 +200,7 @@ header {
   border-radius: 7px;
   cursor: pointer;
   transition: all 0.15s;
-  opacity: 0.5;
+  opacity: 0.5;           /* Inactif par défaut */
 }
 
 .lang-flags button svg {
@@ -158,6 +215,7 @@ header {
   color: var(--text-secondary);
 }
 
+/* Bouton de langue actif */
 .lang-flags button.active {
   background: var(--accent-soft);
   opacity: 1;
@@ -169,7 +227,9 @@ header {
 
 .lang-flags button:hover { opacity: 0.8; }
 
-/* Fields card */
+/* ======================== CARTE DES CHAMPS ======================== */
+
+/* Conteneur principal des 5 champs C.R.A.F.T. */
 .fields-card {
   background: linear-gradient(180deg, var(--surface) 0%, rgba(15, 19, 28, 0.95) 100%);
   border: 1px solid rgba(91, 141, 238, 0.15);
@@ -178,12 +238,14 @@ header {
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3), 0 0 20px rgba(91, 141, 238, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.03);
 }
 
+/* Ligne colorée décorative en haut de la carte */
 .card-banner {
   height: 2px;
   background: linear-gradient(90deg, transparent, #5b8dee, #4facfe, #5b8dee, transparent);
   box-shadow: 0 1px 8px rgba(91, 141, 238, 0.3);
 }
 
+/* Chaque champ du formulaire (séparés par une bordure) */
 .field {
   padding: 1.125rem 1.5rem;
   border-bottom: 1px solid var(--border);
@@ -193,6 +255,7 @@ header {
 .field:last-child { border-bottom: none; }
 .field:hover { background: var(--surface-hover); }
 
+/* Ligne supérieure d'un champ : dot + label + hint */
 .field-top {
   display: flex;
   align-items: center;
@@ -200,6 +263,7 @@ header {
   margin-bottom: 0.5rem;
 }
 
+/* Point coloré indicateur (un par champ C.R.A.F.T.) */
 .field-dot {
   width: 8px;
   height: 8px;
@@ -207,23 +271,28 @@ header {
   flex-shrink: 0;
 }
 
+/* Couleurs distinctes pour chaque champ avec effet de lueur (glow) */
 .dot-c { background: #5b8dee; box-shadow: 0 0 6px rgba(91, 141, 238, 0.6), 0 0 14px rgba(91, 141, 238, 0.25); }
 .dot-r { background: #7ca8f4; box-shadow: 0 0 6px rgba(124, 168, 244, 0.6), 0 0 14px rgba(124, 168, 244, 0.25); }
 .dot-a { background: #4facfe; box-shadow: 0 0 6px rgba(79, 172, 254, 0.6), 0 0 14px rgba(79, 172, 254, 0.25); }
 .dot-f { background: #38bdf8; box-shadow: 0 0 6px rgba(56, 189, 248, 0.6), 0 0 14px rgba(56, 189, 248, 0.25); }
 .dot-t { background: #818cf8; box-shadow: 0 0 6px rgba(129, 140, 248, 0.6), 0 0 14px rgba(129, 140, 248, 0.25); }
 
+/* Label du champ (ex: "Contexte", "Rôle") */
 .field-title {
   font-size: 0.8125rem;
   font-weight: 600;
   color: var(--text);
 }
 
+/* Indice affiché à droite (ex: "Le pourquoi de la démarche") */
 .field-hint {
   font-size: 0.6875rem;
   color: var(--text-muted);
   margin-left: auto;
 }
+
+/* ======================== TEXTAREAS ======================== */
 
 textarea {
   width: 100%;
@@ -236,20 +305,23 @@ textarea {
   font-size: 0.8125rem;
   color: var(--text);
   line-height: 1.6;
-  resize: none;
+  resize: none;           /* Pas de redimensionnement manuel (auto-resize via JS) */
   transition: all 0.2s;
 }
 
 textarea::placeholder { color: var(--text-muted); }
 textarea:hover { border-color: var(--border-light); }
 
+/* État focus : bordure bleue + halo lumineux */
 textarea:focus {
   outline: none;
   border-color: rgba(91, 141, 238, 0.5);
   box-shadow: 0 0 0 2px rgba(91, 141, 238, 0.1), 0 0 16px rgba(91, 141, 238, 0.08);
 }
 
-/* Output */
+/* ======================== ZONE DE RÉSULTAT ======================== */
+
+/* Cachée par défaut, affichée via la classe .visible */
 .output {
   display: none;
   margin-top: 1.5rem;
@@ -258,11 +330,13 @@ textarea:focus {
 
 .output.visible { display: block; }
 
+/* Animation d'apparition */
 @keyframes fade-in {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* Label "Résultat généré" avec point lumineux animé */
 .output-label {
   font-size: 0.625rem;
   font-weight: 600;
@@ -275,6 +349,7 @@ textarea:focus {
   gap: 0.4rem;
 }
 
+/* Point bleu animé avant le label */
 .output-label::before {
   content: '';
   width: 6px;
@@ -285,11 +360,13 @@ textarea:focus {
   animation: neon-pulse 2s ease-in-out infinite;
 }
 
+/* Animation de pulsation du point néon */
 @keyframes neon-pulse {
   0%, 100% { box-shadow: 0 0 6px rgba(91, 141, 238, 0.6), 0 0 14px rgba(91, 141, 238, 0.3); }
   50% { box-shadow: 0 0 8px rgba(91, 141, 238, 0.8), 0 0 20px rgba(91, 141, 238, 0.4); }
 }
 
+/* Boîte contenant le Markdown généré */
 .output-box {
   background: linear-gradient(180deg, var(--surface) 0%, rgba(15, 19, 28, 0.95) 100%);
   border: 1px solid rgba(91, 141, 238, 0.1);
@@ -298,6 +375,7 @@ textarea:focus {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
+/* Texte monospace du résultat */
 .output-box pre {
   font-family: 'SF Mono', 'Consolas', monospace;
   font-size: 0.75rem;
@@ -307,23 +385,47 @@ textarea:focus {
   word-wrap: break-word;
 }
 
-/* Library panel - will be populated in Sprint 3 */
+/**
+ * ============================================================
+ * CSS : Bibliothèque de prompts
+ * ============================================================
+ * Styles du panneau latéral de la bibliothèque.
+ * Sera complété au Sprint 3 avec les cartes de prompts,
+ * la barre de recherche et les filtres de catégorie.
+ * ============================================================
+ */
+
+/* Panneau masqué par défaut, activé au Sprint 3 */
 .library-panel {
   display: none;
 }
 
-/* Buttons */
+/**
+ * ============================================================
+ * CSS : Composants réutilisables
+ * ============================================================
+ * Styles des boutons (.btn), de la barre d'actions et des
+ * notifications toast. Utilisés dans toute l'application.
+ * ============================================================
+ */
+
+/* ======================== BARRE D'ACTIONS ======================== */
+
+/* Conteneur flex des boutons sous le formulaire */
 .actions {
   display: flex;
   gap: 0.5rem;
   margin-top: 1.5rem;
-  flex-wrap: wrap;
+  flex-wrap: wrap;        /* Retour à la ligne si pas assez de place */
 }
 
+/* ======================== BOUTONS ======================== */
+
+/* Style de base commun à tous les boutons */
 .btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.4rem;           /* Espace entre icône et texte */
   padding: 0.6875rem 1.125rem;
   border: none;
   border-radius: 10px;
@@ -332,13 +434,17 @@ textarea:focus {
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s;
-  -webkit-tap-highlight-color: rgba(91, 141, 238, 0.2);
-  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(91, 141, 238, 0.2);  /* Couleur de tap sur mobile */
+  touch-action: manipulation;  /* Désactive le zoom au double-tap */
 }
 
+/* Effet de compression au clic */
 .btn:active { transform: scale(0.97); }
+
+/* Taille des icônes SVG dans les boutons */
 .btn svg { width: 14px; height: 14px; }
 
+/* --- Bouton principal (bleu dégradé, action principale) --- */
 .btn-primary {
   background: linear-gradient(135deg, #5b8dee, #4facfe);
   color: white;
@@ -347,9 +453,10 @@ textarea:focus {
 
 .btn-primary:hover {
   box-shadow: 0 4px 20px rgba(91, 141, 238, 0.45), 0 0 28px rgba(91, 141, 238, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15);
-  transform: translateY(-1px);
+  transform: translateY(-1px);  /* Léger soulèvement au survol */
 }
 
+/* --- Bouton fantôme (fond transparent, actions secondaires) --- */
 .btn-ghost {
   background: rgba(91, 141, 238, 0.06);
   border: 1px solid rgba(91, 141, 238, 0.12);
@@ -362,6 +469,7 @@ textarea:focus {
   border-color: rgba(91, 141, 238, 0.2);
 }
 
+/* --- Bouton danger (rouge, pour suppression) --- */
 .btn-danger {
   background: var(--danger-soft);
   border: 1px solid rgba(239, 68, 68, 0.2);
@@ -373,11 +481,14 @@ textarea:focus {
   border-color: rgba(239, 68, 68, 0.3);
 }
 
-/* Toast */
+/* ======================== TOAST (NOTIFICATION) ======================== */
+
+/* Notification éphémère fixée en bas de l'écran */
 .toast {
   position: fixed;
   bottom: 2rem;
   left: 50%;
+  /* Cachée par défaut : décalée vers le bas + transparente */
   transform: translateX(-50%) translateY(40px);
   background: var(--surface);
   border: 1px solid var(--border);
@@ -390,18 +501,35 @@ textarea:focus {
   transition: all 0.3s ease;
   z-index: 1000;
   box-shadow: var(--shadow-md);
-  pointer-events: none;
+  pointer-events: none;   /* Ne bloque pas les clics quand invisible */
 }
 
+/* État visible : remonte en position et devient opaque */
 .toast.show {
   transform: translateX(-50%) translateY(0);
   opacity: 1;
 }
 
+/**
+ * ============================================================
+ * CSS : Responsive (adaptations mobile)
+ * ============================================================
+ * Ajustements pour les écrans < 600px (smartphones).
+ * Réduit les paddings, masque les hints et empile les boutons.
+ * ============================================================
+ */
+
 @media (max-width: 600px) {
+  /* Réduire les marges sur petit écran */
   .app { padding: 2rem 1rem 3rem; }
+
+  /* Titre plus petit */
   .page-header h1 { font-size: 1.25rem; }
+
+  /* Masquer les indices textuels (pas assez de place) */
   .field-hint { display: none; }
+
+  /* Boutons en colonne plutôt qu'en ligne */
   .actions { flex-direction: column; }
   .btn { width: 100%; justify-content: center; }
 }
@@ -409,9 +537,16 @@ textarea:focus {
   </style>
 </head>
 <body>
+  <!-- ============================================================
+       CONTENEUR PRINCIPAL DE L'APPLICATION
+       ============================================================ -->
   <div class="app">
+
+    <!-- ======================== HEADER ======================== -->
+    <!-- Logo, nom de marque et sélecteur de langue FR/EN -->
     <header>
       <div class="brand">
+        <!-- Icône de l'application (image WebP encodée en base64 pour autonomie) -->
         <div class="brand-icon">
           <img src="data:image/webp;base64,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" alt="Promptium">
         </div>
@@ -420,20 +555,30 @@ textarea:focus {
           <div class="brand-sub">Boost your AI</div>
         </div>
       </div>
+
+      <!-- Sélecteur de langue : drapeaux FR et EN -->
       <div class="lang-flags">
         <button class="active" id="lang-fr" title="Français">
+          <!-- Drapeau français (SVG inline) -->
           <svg viewBox="0 0 36 24"><rect width="12" height="24" fill="#002395"/><rect x="12" width="12" height="24" fill="#fff"/><rect x="24" width="12" height="24" fill="#ED2939"/></svg>
           <span>FR</span>
         </button>
         <button id="lang-en" title="English">
+          <!-- Drapeau britannique (SVG inline) -->
           <svg viewBox="0 0 60 30"><clipPath id="s"><path d="M0,0 v30 h60 v-30 z"/></clipPath><clipPath id="t"><path d="M30,15 h30 v15 z v15 h-30 z h-30 v-15 z v-15 h30 z"/></clipPath><g clip-path="url(#s)"><path d="M0,0 v30 h60 v-30 z" fill="#012169"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6"/><path d="M0,0 L60,30 M60,0 L0,30" clip-path="url(#t)" stroke="#C8102E" stroke-width="4"/><path d="M30,0 v30 M0,15 h60" stroke="#fff" stroke-width="10"/><path d="M30,0 v30 M0,15 h60" stroke="#C8102E" stroke-width="6"/></g></svg>
           <span>EN</span>
         </button>
       </div>
     </header>
 
+    <!-- ======================== FORMULAIRE C.R.A.F.T. ======================== -->
+    <!-- 5 champs : Context, Role, Action, Format, Target
+         Chaque champ utilise data-i18n pour la traduction dynamique -->
     <div class="fields-card">
+      <!-- Barre décorative en haut de la carte -->
       <div class="card-banner"></div>
+
+      <!-- C = Contexte -->
       <div class="field">
         <div class="field-top">
           <span class="field-dot dot-c"></span>
@@ -443,6 +588,7 @@ textarea:focus {
         <textarea id="field-context" rows="2" data-i18n-placeholder="placeholder_context" placeholder="Ex : Je lance une boutique en ligne de produits artisanaux…"></textarea>
       </div>
 
+      <!-- R = Rôle -->
       <div class="field">
         <div class="field-top">
           <span class="field-dot dot-r"></span>
@@ -452,6 +598,7 @@ textarea:focus {
         <textarea id="field-role" rows="2" data-i18n-placeholder="placeholder_role" placeholder="Ex : Tu es un expert en marketing digital avec 10 ans d'expérience…"></textarea>
       </div>
 
+      <!-- A = Action -->
       <div class="field">
         <div class="field-top">
           <span class="field-dot dot-a"></span>
@@ -461,6 +608,7 @@ textarea:focus {
         <textarea id="field-action" rows="2" data-i18n-placeholder="placeholder_action" placeholder="Ex : Rédige un plan marketing en 5 étapes pour le lancement…"></textarea>
       </div>
 
+      <!-- F = Format -->
       <div class="field">
         <div class="field-top">
           <span class="field-dot dot-f"></span>
@@ -470,6 +618,7 @@ textarea:focus {
         <textarea id="field-format" rows="2" data-i18n-placeholder="placeholder_format" placeholder="Ex : Liste à puces, tableau, paragraphe de 200 mots…"></textarea>
       </div>
 
+      <!-- T = Target (Cible) -->
       <div class="field">
         <div class="field-top">
           <span class="field-dot dot-t"></span>
@@ -480,24 +629,31 @@ textarea:focus {
       </div>
     </div>
 
+    <!-- ======================== BOUTONS D'ACTION ======================== -->
     <div class="actions">
+      <!-- Bouton principal : génère le Markdown -->
       <button class="btn btn-primary" id="btn-generate" data-i18n="btn_generate">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
         Générer
       </button>
+      <!-- Copier dans le presse-papier -->
       <button class="btn btn-ghost" id="btn-copy" data-i18n="btn_copy">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
         Copier
       </button>
+      <!-- Envoyer par email (mailto:) -->
       <button class="btn btn-ghost" id="btn-email" data-i18n="btn_email">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
         Email
       </button>
+      <!-- Effacer tous les champs -->
       <button class="btn btn-ghost" id="btn-clear" data-i18n="btn_clear">
         Effacer
       </button>
     </div>
 
+    <!-- ======================== ZONE DE RÉSULTAT ======================== -->
+    <!-- Affichée uniquement après génération (classe .visible ajoutée par JS) -->
     <div class="output" id="output-section">
       <p class="output-label" data-i18n="output_title">Résultat généré</p>
       <div class="output-box">
@@ -506,12 +662,15 @@ textarea:focus {
     </div>
   </div>
 
+  <!-- Pied de page -->
   <footer>
     <span data-i18n="copyright">© 2026 Fabrice Lamour — Tous droits réservés</span>
   </footer>
 
+  <!-- Conteneur pour les notifications toast (messages éphémères) -->
   <div class="toast" id="toast"></div>
 
+  <!-- Point d'entrée JavaScript (module ES6, bundlé en production) -->
   <script>
 (()=>{var m={fr:{page_title:"Nouveau Prompt",page_desc:"Structurez votre requ\xEAte avec la m\xE9thode C.R.A.F.T.",label_context:"Contexte",label_role:"R\xF4le",label_action:"Action",label_format:"Format",label_target:"Target",hint_context:"Le pourquoi de la d\xE9marche",hint_role:"L'expertise que l'IA doit incarner",hint_action:"La t\xE2che pr\xE9cise \xE0 accomplir",hint_format:"La forme attendue du r\xE9sultat",hint_target:"\xC0 qui s'adresse le r\xE9sultat",placeholder_context:"Ex : Je lance une boutique en ligne de produits artisanaux\u2026 | Notre association organise un \xE9v\xE9nement caritatif en juin\u2026 | Je cr\xE9e une formation en ligne sur la photographie\u2026",placeholder_role:"Ex : Tu es un expert en marketing digital avec 10 ans d'exp\xE9rience\u2026 | Un enseignant patient qui vulgarise les sujets complexes\u2026 | Un d\xE9veloppeur full-stack avec 15 ans d'exp\xE9rience\u2026",placeholder_action:"Ex : R\xE9dige un plan marketing en 5 \xE9tapes pour le lancement\u2026 | R\xE9dige un email de relance client professionnel\u2026 | Cr\xE9e un programme de formation sur 4 semaines\u2026",placeholder_format:"Ex : Liste \xE0 puces, tableau, paragraphe de 200 mots\u2026 | Un plan de pr\xE9sentation en 10 slides\u2026 | Un tableau comparatif avec avantages et inconv\xE9nients\u2026",placeholder_target:"Ex : Destin\xE9 \xE0 des \xE9tudiants d\xE9butants\u2026 | Un public non-technique qui d\xE9couvre l'IA\u2026 | Des clients inquiets qui ont besoin d'\xEAtre rassur\xE9s\u2026",btn_generate:"G\xE9n\xE9rer",btn_copy:"Copier",btn_email:"Email",btn_clear:"Effacer",btn_save:"Sauvegarder",btn_update:"Mettre \xE0 jour",btn_cancel:"Annuler",btn_delete:"Supprimer",btn_export:"Exporter",btn_import:"Importer",output_title:"R\xE9sultat g\xE9n\xE9r\xE9",toast_copied:"Copi\xE9 dans le presse-papier",toast_generated:"Prompt g\xE9n\xE9r\xE9",toast_empty:"Remplissez au moins un champ",toast_copy_fail:"\xC9chec de la copie",toast_saved:"Prompt sauvegard\xE9",toast_updated:"Prompt mis \xE0 jour",toast_deleted:"Prompt supprim\xE9",toast_imported:"Import r\xE9ussi",toast_export_done:"Export t\xE9l\xE9charg\xE9",email_subject:"Prompt C.R.A.F.T.",copyright:"\xA9 2026 Fabrice Lamour \u2014 Tous droits r\xE9serv\xE9s",library_title:"Biblioth\xE8que",search_placeholder:"Rechercher un prompt\u2026",category_all:"Toutes",sort_alpha_asc:"A \u2192 Z",sort_alpha_desc:"Z \u2192 A",sort_date_asc:"Plus ancien",sort_date_desc:"Plus r\xE9cent",modal_save_title:"Sauvegarder le prompt",modal_delete_title:"Confirmer la suppression",modal_delete_message:"Voulez-vous vraiment supprimer ce prompt ?",modal_replace_title:"Remplacer les champs ?",modal_replace_message:"Les champs actuels seront remplac\xE9s. Continuer ?",label_title:"Titre",label_category:"Cat\xE9gorie",label_tags:"Tags"},en:{page_title:"New Prompt",page_desc:"Structure your request with the C.R.A.F.T. method.",label_context:"Context",label_role:"Role",label_action:"Action",label_format:"Format",label_target:"Target",hint_context:"The why behind the request",hint_role:"The expertise AI should embody",hint_action:"The precise task to accomplish",hint_format:"The expected output format",hint_target:"Who the result is for",placeholder_context:"E.g.: I'm launching an online store for handmade products\u2026 | Our association is organizing a charity event in June\u2026 | I'm creating an online photography course\u2026",placeholder_role:"E.g.: You are a digital marketing expert with 10 years of experience\u2026 | A patient teacher who simplifies complex topics\u2026 | A full-stack developer with 15 years of experience\u2026",placeholder_action:"E.g.: Write a 5-step marketing plan for the launch\u2026 | Write a professional and engaging follow-up email\u2026 | Create a 4-week training program\u2026",placeholder_format:"E.g.: Bullet list, table, 200-word paragraph\u2026 | A 10-slide presentation plan with key points\u2026 | A comparison table with pros and cons\u2026",placeholder_target:"E.g.: Intended for beginner programming students\u2026 | A non-technical audience discovering AI\u2026 | Worried clients who need reassurance\u2026",btn_generate:"Generate",btn_copy:"Copy",btn_email:"Email",btn_clear:"Clear",btn_save:"Save",btn_update:"Update",btn_cancel:"Cancel",btn_delete:"Delete",btn_export:"Export",btn_import:"Import",output_title:"Generated Result",toast_copied:"Copied to clipboard",toast_generated:"Prompt generated",toast_empty:"Fill in at least one field",toast_copy_fail:"Copy failed",toast_saved:"Prompt saved",toast_updated:"Prompt updated",toast_deleted:"Prompt deleted",toast_imported:"Import successful",toast_export_done:"Export downloaded",email_subject:"C.R.A.F.T. Prompt",copyright:"\xA9 2026 Fabrice Lamour \u2014 All rights reserved",library_title:"Library",search_placeholder:"Search prompts\u2026",category_all:"All",sort_alpha_asc:"A \u2192 Z",sort_alpha_desc:"Z \u2192 A",sort_date_asc:"Oldest first",sort_date_desc:"Newest first",modal_save_title:"Save prompt",modal_delete_title:"Confirm deletion",modal_delete_message:"Are you sure you want to delete this prompt?",modal_replace_title:"Replace fields?",modal_replace_message:"Current fields will be replaced. Continue?",label_title:"Title",label_category:"Category",label_tags:"Tags"}},g="fr",b=[];function i(e){m[e]&&(g=e,b.forEach(t=>t(e)))}function s(){return g}function a(e){return m[g][e]||m.fr[e]||e}function y(e){b.push(e)}var c="promptium_";function u(){try{let e=localStorage.getItem(c+"preferences");return e?JSON.parse(e):x()}catch{return x()}}function f(e){try{return localStorage.setItem(c+"preferences",JSON.stringify(e)),!0}catch{return!1}}function L(){let e=localStorage.getItem(c+"version");return e?parseInt(e,10):0}function S(e){localStorage.setItem(c+"version",String(e))}function v(){L()<1&&S(1)}function x(){return{lang:"fr",sortBy:"date",sortOrder:"desc",lastCategoryFilter:null}}var E={fr:{context:"Contexte",role:"R\xF4le",action:"Action",format:"Format",target:"Cible"},en:{context:"Context",role:"Role",action:"Action",format:"Format",target:"Target"}},w=["context","role","action","format","target"];function I(e,t="fr"){let r=E[t]||E.fr,n=[];for(let h of w){let p=e[h];p&&p.trim()&&n.push(`## ${r[h]}
 

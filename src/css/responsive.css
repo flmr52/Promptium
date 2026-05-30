@@ -1,7 +1,23 @@
+/**
+ * ============================================================
+ * CSS : Responsive (adaptations mobile)
+ * ============================================================
+ * Ajustements pour les écrans < 600px (smartphones).
+ * Réduit les paddings, masque les hints et empile les boutons.
+ * ============================================================
+ */
+
 @media (max-width: 600px) {
+  /* Réduire les marges sur petit écran */
   .app { padding: 2rem 1rem 3rem; }
+
+  /* Titre plus petit */
   .page-header h1 { font-size: 1.25rem; }
+
+  /* Masquer les indices textuels (pas assez de place) */
   .field-hint { display: none; }
+
+  /* Boutons en colonne plutôt qu'en ligne */
   .actions { flex-direction: column; }
   .btn { width: 100%; justify-content: center; }
 }
