@@ -14,7 +14,7 @@ import { loadDefaults, createPrompt, updatePrompt } from './modules/library.js';
 import { getAllCategories } from './modules/categories.js';
 import { exportToJSON, downloadFile, importFromJSON, readFile } from './modules/export-import.js';
 import { initBuilder, applyI18n, setFieldValues, getFieldValues, hasContent, setEditMode, clearEditMode, getEditingPromptId } from './ui/builder-ui.js';
-import { initLibrary, renderPromptList } from './ui/library-ui.js';
+import { initLibrary, renderPromptList, closeDrawer } from './ui/library-ui.js';
 import { showConfirm, showSaveForm } from './ui/modal-ui.js';
 import { showToast } from './ui/toast-ui.js';
 
@@ -139,8 +139,11 @@ function initPromptLoading() {
       clearEditMode();
     }
 
-    // Scroll vers le builder pour voir les champs remplis
-    document.querySelector('.fields-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Fermer le drawer et scroll vers le builder
+    closeDrawer();
+    setTimeout(() => {
+      document.querySelector('.fields-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 300);
   });
 }
 

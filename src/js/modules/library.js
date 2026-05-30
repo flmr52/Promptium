@@ -15,6 +15,7 @@
 
 import { getAll, setAll, getHiddenDefaults, setHiddenDefaults, clearHiddenDefaults } from './storage.js';
 import { loadDefaultCategories } from './categories.js';
+import { isDefaultFavorite } from './favorites.js';
 import { generateId } from '../utils/id.js';
 import { nowISO } from '../utils/date.js';
 
@@ -68,7 +69,9 @@ export async function fetchDefaults(url) {
 export function getAllPrompts() {
   const userPrompts = getAll(STORAGE_KEY);
   const hiddenIds = getHiddenDefaults();
-  const visibleDefaults = defaultPrompts.filter(p => !hiddenIds.includes(p.id));
+  const visibleDefaults = defaultPrompts
+    .filter(p => !hiddenIds.includes(p.id))
+    .map(p => ({ ...p, favorite: isDefaultFavorite(p.id) }));
   return [...visibleDefaults, ...userPrompts];
 }
 

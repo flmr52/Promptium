@@ -21,9 +21,10 @@
   .actions { flex-direction: column; }
   .btn { width: 100%; justify-content: center; }
 
-  /* Bibliothèque : réduire la hauteur de la liste sur mobile */
-  .library-list { max-height: 300px; }
+  /* Drawer pleine largeur sur mobile */
+  .drawer { width: 100%; max-width: 100%; }
 
   /* Modales pleine largeur sur mobile */
   .modal { max-width: 100%; }
+
 }

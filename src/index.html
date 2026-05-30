@@ -42,8 +42,14 @@
         </div>
       </div>
 
-      <!-- Sélecteur de langue : drapeaux FR et EN -->
-      <div class="lang-flags" role="group" aria-label="Sélection de langue">
+      <div class="header-actions">
+        <!-- Bouton d'ouverture de la bibliothèque (drawer) -->
+        <button class="btn-icon" id="btn-open-library" title="Bibliothèque" aria-label="Ouvrir la bibliothèque">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+        </button>
+
+        <!-- Sélecteur de langue : drapeaux FR et EN -->
+        <div class="lang-flags" role="group" aria-label="Sélection de langue">
         <button class="active" id="lang-fr" title="Français" aria-pressed="true">
           <!-- Drapeau français (SVG inline) -->
           <svg viewBox="0 0 36 24"><rect width="12" height="24" fill="#002395"/><rect x="12" width="12" height="24" fill="#fff"/><rect x="24" width="12" height="24" fill="#ED2939"/></svg>
@@ -54,6 +60,7 @@
           <svg viewBox="0 0 60 30"><clipPath id="s"><path d="M0,0 v30 h60 v-30 z"/></clipPath><clipPath id="t"><path d="M30,15 h30 v15 z v15 h-30 z h-30 v-15 z v-15 h30 z"/></clipPath><g clip-path="url(#s)"><path d="M0,0 v30 h60 v-30 z" fill="#012169"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6"/><path d="M0,0 L60,30 M60,0 L0,30" clip-path="url(#t)" stroke="#C8102E" stroke-width="4"/><path d="M30,0 v30 M0,15 h60" stroke="#fff" stroke-width="10"/><path d="M30,0 v30 M0,15 h60" stroke="#C8102E" stroke-width="6"/></g></svg>
           <span>EN</span>
         </button>
+      </div>
       </div>
     </header>
 
@@ -115,10 +122,6 @@
       </div>
     </div>
 
-    <!-- ======================== BIBLIOTHÈQUE DE PROMPTS ======================== -->
-    <!-- Panneau affichant la liste des prompts sauvegardés et par défaut.
-         Son contenu est généré dynamiquement par library-ui.js -->
-    <div class="library-panel" id="library-panel" role="region" aria-label="Bibliothèque de prompts"></div>
 
     <!-- ======================== BOUTONS D'ACTION ======================== -->
     <div class="actions">
@@ -176,6 +179,21 @@
   <footer>
     <span data-i18n="copyright">© 2026 Fabrice Lamour — Tous droits réservés</span>
   </footer>
+
+  <!-- ======================== DRAWER BIBLIOTHÈQUE ======================== -->
+  <!-- Panneau latéral glissant depuis la gauche, contient la bibliothèque de prompts -->
+  <div class="drawer-overlay" id="drawer-overlay"></div>
+  <aside class="drawer" id="drawer" role="region" aria-label="Bibliothèque de prompts">
+    <div class="drawer-header">
+      <h2 class="drawer-title" data-i18n="library_title">Bibliothèque</h2>
+      <button class="btn-icon drawer-close" id="btn-close-library" title="Fermer" aria-label="Fermer la bibliothèque">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="library-panel" id="library-panel"></div>
+  </aside>
+
+
 
   <!-- Conteneur pour les notifications toast (messages éphémères) -->
   <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>

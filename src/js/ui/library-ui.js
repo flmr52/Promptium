@@ -59,6 +59,9 @@ export function initLibrary() {
   // Afficher les prompts
   renderPromptList();
 
+  // Brancher l'ouverture/fermeture du drawer
+  initDrawer();
+
   // Se mettre à jour quand la langue change
   onLangChange(() => {
     panel.innerHTML = buildPanelHTML();
@@ -67,6 +70,55 @@ export function initLibrary() {
     bindSortEvents();
     renderPromptList();
   });
+}
+
+// ============================================================
+// SECTION : Drawer (panneau latéral)
+// ============================================================
+
+/**
+ * Branche les boutons d'ouverture/fermeture du drawer et l'overlay.
+ */
+function initDrawer() {
+  const drawer = document.getElementById('drawer');
+  const overlay = document.getElementById('drawer-overlay');
+  const btnOpen = document.getElementById('btn-open-library');
+  const btnFab = document.getElementById('btn-fab-library');
+  const btnClose = document.getElementById('btn-close-library');
+
+  if (btnOpen) btnOpen.addEventListener('click', openDrawer);
+  if (btnFab) btnFab.addEventListener('click', openDrawer);
+  if (btnClose) btnClose.addEventListener('click', closeDrawer);
+  if (overlay) overlay.addEventListener('click', closeDrawer);
+
+  // Fermer avec Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && drawer && drawer.classList.contains('open')) {
+      closeDrawer();
+    }
+  });
+}
+
+/**
+ * Ouvre le drawer bibliothèque.
+ */
+export function openDrawer() {
+  const drawer = document.getElementById('drawer');
+  const overlay = document.getElementById('drawer-overlay');
+  if (drawer) drawer.classList.add('open');
+  if (overlay) overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+/**
+ * Ferme le drawer bibliothèque.
+ */
+export function closeDrawer() {
+  const drawer = document.getElementById('drawer');
+  const overlay = document.getElementById('drawer-overlay');
+  if (drawer) drawer.classList.remove('open');
+  if (overlay) overlay.classList.remove('open');
+  document.body.style.overflow = '';
 }
 
 // ============================================================
@@ -101,7 +153,6 @@ function buildPanelHTML() {
 
   return `
     <div class="library-header">
-      <h2 class="library-title">${t('library_title')}</h2>
       <select class="library-sort" id="library-sort">${sortSelect}</select>
     </div>
     <div class="library-search">

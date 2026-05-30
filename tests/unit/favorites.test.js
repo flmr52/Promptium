@@ -35,8 +35,10 @@ describe('favorites', () => {
       expect(toggleFavorite('p2')).toBe(false);
     });
 
-    it('retourne null pour un prompt inconnu', () => {
-      expect(toggleFavorite('nonexistent')).toBeNull();
+    it('traite un ID inconnu comme prompt par défaut et le met en favori', () => {
+      expect(toggleFavorite('nonexistent')).toBe(true);
+      // Un 2e toggle le retire
+      expect(toggleFavorite('nonexistent')).toBe(false);
     });
 
     it('persiste le changement dans localStorage', () => {
@@ -60,8 +62,8 @@ describe('favorites', () => {
       expect(prompts.find(p => p.id === 'p2').favorite).toBe(false);
     });
 
-    it('retourne false pour un prompt inconnu', () => {
-      expect(setFavorite('nonexistent', true)).toBe(false);
+    it('traite un ID inconnu comme prompt par défaut (retourne true)', () => {
+      expect(setFavorite('nonexistent', true)).toBe(true);
     });
   });
 
