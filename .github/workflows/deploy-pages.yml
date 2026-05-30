@@ -31,13 +31,25 @@ jobs:
           ref: dev
           path: dev-src
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies and build dev
+        working-directory: dev-src
+        run: |
+          npm ci
+          npm test
+          npm run build
+
       - name: Build site structure
         run: |
           mkdir -p _site/dev
           cp -r stable/* _site/ 2>/dev/null || true
           cp -r stable/.* _site/ 2>/dev/null || true
-          cp -r dev-src/* _site/dev/ 2>/dev/null || true
-          rm -rf _site/.git _site/.github _site/dev/.git _site/dev/.github
+          cp dev-src/dist/index.html _site/dev/index.html
+          rm -rf _site/.git _site/.github
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

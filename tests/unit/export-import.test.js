@@ -11,7 +11,7 @@
  */
 
 import { describe, it, expect, beforeEach } from 'vitest';
-import { exportToJSON, importFromJSON } from '../../src/js/modules/export-import.js';
+import { exportToJSON, importFromJSON, downloadFile, readFile } from '../../src/js/modules/export-import.js';
 import { setAll, getAll } from '../../src/js/modules/storage.js';
 
 beforeEach(() => {
@@ -141,6 +141,29 @@ describe('export-import', () => {
       });
       const result = importFromJSON(json);
       expect(result.skipped).toBe(1);
+    });
+  });
+
+  // --- Tests de downloadFile ---
+  describe('downloadFile', () => {
+    it('crée un lien et déclenche le téléchargement', () => {
+      const json = '{"test": true}';
+      // Ne devrait pas throw dans happy-dom
+      expect(() => downloadFile(json, 'test.json')).not.toThrow();
+    });
+
+    it('utilise un nom par défaut si non spécifié', () => {
+      expect(() => downloadFile('{}', undefined)).not.toThrow();
+    });
+  });
+
+  // --- Tests de readFile ---
+  describe('readFile', () => {
+    it('lit le contenu d\'un fichier texte', async () => {
+      const content = '{"hello": "world"}';
+      const file = new File([content], 'test.json', { type: 'application/json' });
+      const result = await readFile(file);
+      expect(result).toBe(content);
     });
   });
 });
