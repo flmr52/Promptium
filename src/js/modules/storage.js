@@ -118,6 +118,35 @@ export function migrate() {
 }
 
 // ============================================================
+// SECTION : Prompts par défaut masqués
+// ============================================================
+
+/**
+ * Retourne la liste des IDs de prompts par défaut masqués par l'utilisateur.
+ * @returns {string[]} Tableau d'IDs masqués
+ */
+export function getHiddenDefaults() {
+  return getAll('hidden_defaults');
+}
+
+/**
+ * Enregistre la liste des IDs de prompts par défaut masqués.
+ * @param {string[]} ids - Tableau d'IDs à masquer
+ * @returns {boolean} true si succès
+ */
+export function setHiddenDefaults(ids) {
+  return setAll('hidden_defaults', ids);
+}
+
+/**
+ * Restaure tous les prompts par défaut (vide la liste des masqués).
+ * @returns {boolean} true si succès
+ */
+export function clearHiddenDefaults() {
+  return setAll('hidden_defaults', []);
+}
+
+// ============================================================
 // SECTION : Nettoyage
 // ============================================================
 

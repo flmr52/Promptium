@@ -15,7 +15,7 @@
  */
 
 import { t, getLang, onLangChange } from '../modules/i18n.js';
-import { getAllPrompts, deletePrompt, duplicatePrompt } from '../modules/library.js';
+import { getAllPrompts, deletePrompt, duplicatePrompt, restoreDefaults, hasHiddenDefaults, hiddenDefaultsCount } from '../modules/library.js';
 import { getAllCategories } from '../modules/categories.js';
 import { sortPrompts } from '../modules/sorting.js';
 import { filterPrompts } from '../modules/search.js';
@@ -111,6 +111,7 @@ function buildPanelHTML() {
       <button class="cat-tab ${!currentCategory ? 'active' : ''}" data-cat-id="">${t('category_all')}</button>
       ${categoryTabs}
     </div>
+    <div class="library-restore-banner" id="library-restore-banner"></div>
     <div class="library-list" id="library-list"></div>
   `;
 }
@@ -138,6 +139,9 @@ export function renderPromptList() {
 
   // Trier
   prompts = sortPrompts(prompts, currentSort, currentOrder);
+
+  // Mettre à jour la bannière de restauration (toujours, même si liste vide)
+  updateRestoreButton();
 
   // Générer les cartes
   if (prompts.length === 0) {
@@ -214,7 +218,7 @@ function buildPromptCard(prompt, lang) {
       </div>
       <div class="card-actions">
         <button class="card-btn card-load" data-load-id="${prompt.id}">${t('btn_generate')}</button>
-        ${!prompt.isDefault ? `<button class="card-btn card-delete" data-delete-id="${prompt.id}" title="${t('btn_delete')}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3,6 5,6 21,6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></button>` : ''}
+        <button class="card-btn card-delete" data-delete-id="${prompt.id}" data-is-default="${prompt.isDefault ? 'true' : 'false'}" title="${t('btn_delete')}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3,6 5,6 21,6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></button>
       </div>
     </div>
   `;
@@ -312,7 +316,10 @@ function bindCardEvents(container) {
     btn.addEventListener('click', async (e) => {
       e.stopPropagation();
       const id = btn.dataset.deleteId;
-      const confirmed = await showConfirm(t('modal_delete_title'), t('modal_delete_message'));
+      const isDefault = btn.dataset.isDefault === 'true';
+      // Message adapté : réversible pour les défauts, définitif pour les utilisateur
+      const message = isDefault ? t('modal_delete_default_message') : t('modal_delete_message');
+      const confirmed = await showConfirm(t('modal_delete_title'), message);
       if (confirmed) {
         deletePrompt(id);
         showToast(t('toast_deleted'));
@@ -320,4 +327,45 @@ function bindCardEvents(container) {
       }
     });
   });
+}
+
+/**
+ * Met à jour la bannière de restauration au-dessus de la liste.
+ * Affiche le nombre de prompts masqués dans la catégorie active
+ * et un bouton "Restaurer" avec icône.
+ * N'apparaît que quand des prompts par défaut de la catégorie sont supprimés.
+ */
+function updateRestoreButton() {
+  const banner = document.getElementById('library-restore-banner');
+  if (!banner) return;
+
+  // Compter les masqués dans la catégorie active (ou globalement si "Toutes")
+  const count = hiddenDefaultsCount(currentCategory);
+
+  if (count > 0) {
+    const label = count === 1 ? 'prompt masqué' : 'prompts masqués';
+    banner.innerHTML = `
+      <div class="restore-banner">
+        <span class="restore-banner-text">
+          <svg class="restore-banner-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          ${count} ${label}
+        </span>
+        <button class="restore-banner-btn" id="btn-restore-defaults">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1,4 1,10 7,10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+          Restaurer
+        </button>
+      </div>
+    `;
+    document.getElementById('btn-restore-defaults').addEventListener('click', async () => {
+      const confirmed = await showConfirm(t('modal_restore_title'), t('modal_restore_message'), t('btn_restore_defaults'));
+      if (confirmed) {
+        // Restaurer selon le filtre : catégorie active ou tous
+        restoreDefaults(currentCategory);
+        showToast(t('toast_restored'));
+        renderPromptList();
+      }
+    });
+  } else {
+    banner.innerHTML = '';
+  }
 }

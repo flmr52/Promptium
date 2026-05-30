@@ -67,6 +67,7 @@ const translations = {
     toast_deleted: "Prompt supprimé",
     toast_imported: "Import réussi",
     toast_export_done: "Export téléchargé",
+    toast_restored: "Prompts par défaut restaurés",
 
     // --- Email ---
     email_subject: "Prompt C.R.A.F.T.",
@@ -87,6 +88,10 @@ const translations = {
     modal_save_title: "Sauvegarder le prompt",
     modal_delete_title: "Confirmer la suppression",
     modal_delete_message: "Voulez-vous vraiment supprimer ce prompt ?",
+    modal_delete_default_message: "Ce prompt par défaut sera masqué. Vous pourrez le restaurer ultérieurement.",
+    modal_restore_title: "Restaurer les prompts par défaut ?",
+    modal_restore_message: "Tous les prompts par défaut supprimés seront restaurés. Vos prompts personnels ne seront pas affectés.",
+    btn_restore_defaults: "Restaurer les prompts par défaut",
     modal_replace_title: "Remplacer les champs ?",
     modal_replace_message: "Les champs actuels seront remplacés. Continuer ?",
     label_title: "Titre",
@@ -145,6 +150,7 @@ const translations = {
     toast_deleted: "Prompt deleted",
     toast_imported: "Import successful",
     toast_export_done: "Export downloaded",
+    toast_restored: "Default prompts restored",
 
     // --- Email ---
     email_subject: "C.R.A.F.T. Prompt",
@@ -165,6 +171,10 @@ const translations = {
     modal_save_title: "Save prompt",
     modal_delete_title: "Confirm deletion",
     modal_delete_message: "Are you sure you want to delete this prompt?",
+    modal_delete_default_message: "This default prompt will be hidden. You can restore it later.",
+    modal_restore_title: "Restore default prompts?",
+    modal_restore_message: "All deleted default prompts will be restored. Your personal prompts will not be affected.",
+    btn_restore_defaults: "Restore default prompts",
     modal_replace_title: "Replace fields?",
     modal_replace_message: "Current fields will be replaced. Continue?",
     label_title: "Title",

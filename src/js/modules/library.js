@@ -13,7 +13,7 @@
  * ============================================================
  */
 
-import { getAll, setAll } from './storage.js';
+import { getAll, setAll, getHiddenDefaults, setHiddenDefaults, clearHiddenDefaults } from './storage.js';
 import { loadDefaultCategories } from './categories.js';
 import { generateId } from '../utils/id.js';
 import { nowISO } from '../utils/date.js';
@@ -67,15 +67,18 @@ export async function fetchDefaults(url) {
  */
 export function getAllPrompts() {
   const userPrompts = getAll(STORAGE_KEY);
-  return [...defaultPrompts, ...userPrompts];
+  const hiddenIds = getHiddenDefaults();
+  const visibleDefaults = defaultPrompts.filter(p => !hiddenIds.includes(p.id));
+  return [...visibleDefaults, ...userPrompts];
 }
 
 /**
- * Retourne uniquement les prompts par défaut (lecture seule).
+ * Retourne uniquement les prompts par défaut visibles (non masqués).
  * @returns {Array}
  */
 export function getDefaultPrompts() {
-  return [...defaultPrompts];
+  const hiddenIds = getHiddenDefaults();
+  return defaultPrompts.filter(p => !hiddenIds.includes(p.id));
 }
 
 /**
@@ -156,12 +159,20 @@ export function updatePrompt(id, data) {
 }
 
 /**
- * Supprime un prompt utilisateur.
- * Les prompts par défaut ne peuvent pas être supprimés.
+ * Supprime un prompt (utilisateur ou par défaut).
+ * - Prompt utilisateur : supprimé de localStorage
+ * - Prompt par défaut : ajouté à la liste des masqués (réversible via restoreDefaults)
  * @param {string} id - Identifiant du prompt à supprimer
- * @returns {boolean} true si supprimé, false si non trouvé ou par défaut
+ * @returns {boolean} true si supprimé/masqué, false si non trouvé ou déjà masqué
  */
 export function deletePrompt(id) {
+  // Vérifier si c'est un prompt par défaut
+  const isDefault = defaultPrompts.some(p => p.id === id);
+  if (isDefault) {
+    return hideDefaultPrompt(id);
+  }
+
+  // Suppression d'un prompt utilisateur
   const prompts = getAll(STORAGE_KEY);
   const filtered = prompts.filter(p => p.id !== id);
 
@@ -169,6 +180,64 @@ export function deletePrompt(id) {
 
   setAll(STORAGE_KEY, filtered);
   return true;
+}
+
+/**
+ * Masque un prompt par défaut en l'ajoutant à la liste des IDs masqués.
+ * @param {string} id - ID du prompt par défaut à masquer
+ * @returns {boolean} true si masqué, false si déjà masqué
+ */
+function hideDefaultPrompt(id) {
+  const hiddenIds = getHiddenDefaults();
+  if (hiddenIds.includes(id)) return false;
+  hiddenIds.push(id);
+  setHiddenDefaults(hiddenIds);
+  return true;
+}
+
+/**
+ * Restaure les prompts par défaut masqués.
+ * Si une catégorie est spécifiée, ne restaure que ceux de cette catégorie.
+ * Sans catégorie (ou null), restaure tous les masqués.
+ * @param {string|null} categoryId - Catégorie à restaurer, ou null pour tout
+ */
+export function restoreDefaults(categoryId) {
+  if (!categoryId) {
+    clearHiddenDefaults();
+    return;
+  }
+  // Ne restaurer que les prompts de la catégorie spécifiée
+  const hiddenIds = getHiddenDefaults();
+  const idsToKeepHidden = hiddenIds.filter(id => {
+    const prompt = defaultPrompts.find(p => p.id === id);
+    return prompt && prompt.categoryId !== categoryId;
+  });
+  setHiddenDefaults(idsToKeepHidden);
+}
+
+/**
+ * Vérifie si des prompts par défaut sont masqués dans une catégorie donnée.
+ * Sans catégorie (ou null), vérifie globalement.
+ * @param {string|null} categoryId - Catégorie à vérifier, ou null pour tout
+ * @returns {boolean}
+ */
+export function hasHiddenDefaults(categoryId) {
+  return hiddenDefaultsCount(categoryId) > 0;
+}
+
+/**
+ * Retourne le nombre de prompts par défaut masqués dans une catégorie donnée.
+ * Sans catégorie (ou null), retourne le total global.
+ * @param {string|null} categoryId - Catégorie à compter, ou null pour tout
+ * @returns {number}
+ */
+export function hiddenDefaultsCount(categoryId) {
+  const hiddenIds = getHiddenDefaults();
+  if (!categoryId) return hiddenIds.length;
+  return hiddenIds.filter(id => {
+    const prompt = defaultPrompts.find(p => p.id === id);
+    return prompt && prompt.categoryId === categoryId;
+  }).length;
 }
 
 /**

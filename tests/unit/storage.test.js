@@ -15,6 +15,7 @@ import {
   getAll, setAll,
   getPreferences, setPreferences,
   getSchemaVersion, setSchemaVersion,
+  getHiddenDefaults, setHiddenDefaults, clearHiddenDefaults,
   migrate, clear
 } from '../../src/js/modules/storage.js';
 
@@ -92,6 +93,30 @@ describe('storage', () => {
       setSchemaVersion(5);
       migrate();
       expect(getSchemaVersion()).toBe(5);
+    });
+  });
+
+  // --- Tests des prompts par défaut masqués ---
+  describe('hidden defaults', () => {
+    it('retourne un tableau vide initialement', () => {
+      expect(getHiddenDefaults()).toEqual([]);
+    });
+
+    it('persiste un tableau d\'IDs masqués', () => {
+      setHiddenDefaults(['default-001', 'default-002']);
+      expect(getHiddenDefaults()).toEqual(['default-001', 'default-002']);
+    });
+
+    it('clearHiddenDefaults remet à un tableau vide', () => {
+      setHiddenDefaults(['default-001']);
+      clearHiddenDefaults();
+      expect(getHiddenDefaults()).toEqual([]);
+    });
+
+    it('clear() supprime aussi les hidden defaults', () => {
+      setHiddenDefaults(['default-001']);
+      clear();
+      expect(getHiddenDefaults()).toEqual([]);
     });
   });
 

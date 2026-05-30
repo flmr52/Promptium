@@ -25,7 +25,7 @@ import { t } from '../modules/i18n.js';
  * @param {string} message - Message explicatif
  * @returns {Promise<boolean>}
  */
-export function showConfirm(title, message) {
+export function showConfirm(title, message, confirmLabel) {
   return new Promise(resolve => {
     const overlay = createOverlay();
     const modal = document.createElement('div');
@@ -38,7 +38,7 @@ export function showConfirm(title, message) {
       <div class="modal-body">${message}</div>
       <div class="modal-actions">
         <button class="btn btn-ghost modal-cancel">${t('btn_cancel')}</button>
-        <button class="btn btn-primary modal-confirm">${t('btn_delete')}</button>
+        <button class="btn btn-primary modal-confirm">${confirmLabel || t('btn_delete')}</button>
       </div>
     `;
 
