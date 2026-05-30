@@ -6,8 +6,12 @@
  * (Contexte, Rôle, Action, Format, Target), la génération du
  * Markdown, la copie, l'envoi par email et l'effacement.
  *
- * Ce module expose aussi setFieldValues() pour permettre à la
- * bibliothèque de pré-remplir les champs du builder.
+ * Ce module gère aussi le "mode édition" : quand l'utilisateur
+ * modifie un prompt existant depuis la bibliothèque, le bouton
+ * "Sauvegarder" devient "Mettre à jour".
+ *
+ * Expose setFieldValues() pour le pré-remplissage depuis la bibliothèque
+ * et getFieldValues()/hasContent() pour la sauvegarde.
  * ============================================================
  */
 
@@ -17,6 +21,9 @@ import { showToast } from './toast-ui.js';
 
 // Stocke le Markdown généré pour la copie et l'envoi par email
 let generatedMarkdown = '';
+
+// ID du prompt en cours d'édition (null = mode création)
+let editingPromptId = null;
 
 // ============================================================
 // SECTION : Initialisation
@@ -29,7 +36,7 @@ let generatedMarkdown = '';
  */
 export function initBuilder() {
   // Auto-resize des textareas : la hauteur s'adapte au contenu
-  document.querySelectorAll('textarea').forEach(ta => {
+  document.querySelectorAll('.fields-card textarea').forEach(ta => {
     ta.addEventListener('input', function () {
       this.style.height = 'auto';
       this.style.height = Math.max(60, this.scrollHeight) + 'px';
@@ -97,6 +104,53 @@ export function hasContent() {
 }
 
 // ============================================================
+// SECTION : Mode édition
+// ============================================================
+
+/**
+ * Active le mode édition pour un prompt existant.
+ * Le bouton "Sauvegarder" affichera "Mettre à jour" à la place.
+ * @param {string} promptId - ID du prompt en cours d'édition
+ */
+export function setEditMode(promptId) {
+  editingPromptId = promptId;
+  updateSaveButtonLabel();
+}
+
+/**
+ * Désactive le mode édition (retour au mode création).
+ */
+export function clearEditMode() {
+  editingPromptId = null;
+  updateSaveButtonLabel();
+}
+
+/**
+ * Retourne l'ID du prompt en cours d'édition, ou null.
+ * @returns {string|null}
+ */
+export function getEditingPromptId() {
+  return editingPromptId;
+}
+
+/**
+ * Met à jour le label du bouton sauvegarde selon le mode.
+ */
+function updateSaveButtonLabel() {
+  const btn = document.getElementById('btn-save');
+  if (!btn) return;
+  const svg = btn.querySelector('svg');
+  const label = editingPromptId ? t('btn_update') : t('btn_save');
+  if (svg) {
+    btn.innerHTML = '';
+    btn.appendChild(svg);
+    btn.appendChild(document.createTextNode(' ' + label));
+  } else {
+    btn.textContent = label;
+  }
+}
+
+// ============================================================
 // SECTION : Actions principales
 // ============================================================
 
@@ -155,15 +209,16 @@ function sendByEmail() {
 
 /**
  * Vide tous les champs du builder et masque la zone de résultat.
- * Réinitialise aussi le Markdown stocké.
+ * Réinitialise aussi le Markdown stocké et le mode édition.
  */
 function clearAll() {
-  document.querySelectorAll('textarea').forEach(ta => {
+  document.querySelectorAll('.fields-card textarea').forEach(ta => {
     ta.value = '';
     ta.style.height = '';
   });
   document.getElementById('output-section').classList.remove('visible');
   generatedMarkdown = '';
+  clearEditMode();
 }
 
 // ============================================================
@@ -199,6 +254,9 @@ function applyI18n() {
     const text = t(key);
     if (text && text !== key) el.placeholder = text;
   });
+
+  // Mettre à jour le label du bouton sauvegarde
+  updateSaveButtonLabel();
 }
 
 export { applyI18n };

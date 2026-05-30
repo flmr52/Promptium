@@ -79,6 +79,13 @@
   border-color: rgba(239, 68, 68, 0.3);
 }
 
+/* Rangée secondaire de boutons (export/import) */
+.actions-secondary {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border);
+}
+
 /* ======================== TOAST (NOTIFICATION) ======================== */
 
 /* Notification éphémère fixée en bas de l'écran */
