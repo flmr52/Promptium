@@ -3,9 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="Promptium — Créez des prompts IA structurés avec la méthode C.R.A.F.T.">
+  <meta name="theme-color" content="#0b0d13">
   <title>Promptium — Boost your AI</title>
 
-  <!-- Chargement de la police Inter (Google Fonts) -->
+  <!-- Chargement de la police Inter (Google Fonts)
+       En production (build), ces liens sont supprimés et la font-stack système prend le relais
+       pour garantir le fonctionnement 100% offline -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -22,11 +26,11 @@
   <!-- ============================================================
        CONTENEUR PRINCIPAL DE L'APPLICATION
        ============================================================ -->
-  <div class="app">
+  <div class="app" role="main" aria-label="Application Promptium">
 
     <!-- ======================== HEADER ======================== -->
     <!-- Logo, nom de marque et sélecteur de langue FR/EN -->
-    <header>
+    <header role="banner">
       <div class="brand">
         <!-- Icône de l'application (image WebP encodée en base64 pour autonomie) -->
         <div class="brand-icon">
@@ -39,13 +43,13 @@
       </div>
 
       <!-- Sélecteur de langue : drapeaux FR et EN -->
-      <div class="lang-flags">
-        <button class="active" id="lang-fr" title="Français">
+      <div class="lang-flags" role="group" aria-label="Sélection de langue">
+        <button class="active" id="lang-fr" title="Français" aria-pressed="true">
           <!-- Drapeau français (SVG inline) -->
           <svg viewBox="0 0 36 24"><rect width="12" height="24" fill="#002395"/><rect x="12" width="12" height="24" fill="#fff"/><rect x="24" width="12" height="24" fill="#ED2939"/></svg>
           <span>FR</span>
         </button>
-        <button id="lang-en" title="English">
+        <button id="lang-en" title="English" aria-pressed="false">
           <!-- Drapeau britannique (SVG inline) -->
           <svg viewBox="0 0 60 30"><clipPath id="s"><path d="M0,0 v30 h60 v-30 z"/></clipPath><clipPath id="t"><path d="M30,15 h30 v15 z v15 h-30 z h-30 v-15 z v-15 h30 z"/></clipPath><g clip-path="url(#s)"><path d="M0,0 v30 h60 v-30 z" fill="#012169"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6"/><path d="M0,0 L60,30 M60,0 L0,30" clip-path="url(#t)" stroke="#C8102E" stroke-width="4"/><path d="M30,0 v30 M0,15 h60" stroke="#fff" stroke-width="10"/><path d="M30,0 v30 M0,15 h60" stroke="#C8102E" stroke-width="6"/></g></svg>
           <span>EN</span>
@@ -56,7 +60,7 @@
     <!-- ======================== FORMULAIRE C.R.A.F.T. ======================== -->
     <!-- 5 champs : Context, Role, Action, Format, Target
          Chaque champ utilise data-i18n pour la traduction dynamique -->
-    <div class="fields-card">
+    <div class="fields-card" role="form" aria-label="Formulaire C.R.A.F.T.">
       <!-- Barre décorative en haut de la carte -->
       <div class="card-banner"></div>
 
@@ -67,7 +71,7 @@
           <span class="field-title" data-i18n="label_context">Contexte</span>
           <span class="field-hint" data-i18n="hint_context">Le pourquoi de la démarche</span>
         </div>
-        <textarea id="field-context" rows="2" data-i18n-placeholder="placeholder_context" placeholder="Ex : Je lance une boutique en ligne de produits artisanaux…"></textarea>
+        <textarea id="field-context" rows="2" aria-label="Contexte" data-i18n-placeholder="placeholder_context" placeholder="Ex : Je lance une boutique en ligne de produits artisanaux…"></textarea>
       </div>
 
       <!-- R = Rôle -->
@@ -77,7 +81,7 @@
           <span class="field-title" data-i18n="label_role">Rôle</span>
           <span class="field-hint" data-i18n="hint_role">L'expertise que l'IA doit incarner</span>
         </div>
-        <textarea id="field-role" rows="2" data-i18n-placeholder="placeholder_role" placeholder="Ex : Tu es un expert en marketing digital avec 10 ans d'expérience…"></textarea>
+        <textarea id="field-role" rows="2" aria-label="Rôle" data-i18n-placeholder="placeholder_role" placeholder="Ex : Tu es un expert en marketing digital avec 10 ans d'expérience…"></textarea>
       </div>
 
       <!-- A = Action -->
@@ -87,7 +91,7 @@
           <span class="field-title" data-i18n="label_action">Action</span>
           <span class="field-hint" data-i18n="hint_action">La tâche précise à accomplir</span>
         </div>
-        <textarea id="field-action" rows="2" data-i18n-placeholder="placeholder_action" placeholder="Ex : Rédige un plan marketing en 5 étapes pour le lancement…"></textarea>
+        <textarea id="field-action" rows="2" aria-label="Action" data-i18n-placeholder="placeholder_action" placeholder="Ex : Rédige un plan marketing en 5 étapes pour le lancement…"></textarea>
       </div>
 
       <!-- F = Format -->
@@ -97,7 +101,7 @@
           <span class="field-title" data-i18n="label_format">Format</span>
           <span class="field-hint" data-i18n="hint_format">La forme attendue du résultat</span>
         </div>
-        <textarea id="field-format" rows="2" data-i18n-placeholder="placeholder_format" placeholder="Ex : Liste à puces, tableau, paragraphe de 200 mots…"></textarea>
+        <textarea id="field-format" rows="2" aria-label="Format" data-i18n-placeholder="placeholder_format" placeholder="Ex : Liste à puces, tableau, paragraphe de 200 mots…"></textarea>
       </div>
 
       <!-- T = Target (Cible) -->
@@ -107,14 +111,14 @@
           <span class="field-title" data-i18n="label_target">Target</span>
           <span class="field-hint" data-i18n="hint_target">À qui s'adresse le résultat</span>
         </div>
-        <textarea id="field-target" rows="2" data-i18n-placeholder="placeholder_target" placeholder="Ex : Destiné à des étudiants débutants…"></textarea>
+        <textarea id="field-target" rows="2" aria-label="Target" data-i18n-placeholder="placeholder_target" placeholder="Ex : Destiné à des étudiants débutants…"></textarea>
       </div>
     </div>
 
     <!-- ======================== BIBLIOTHÈQUE DE PROMPTS ======================== -->
     <!-- Panneau affichant la liste des prompts sauvegardés et par défaut.
          Son contenu est généré dynamiquement par library-ui.js -->
-    <div class="library-panel" id="library-panel"></div>
+    <div class="library-panel" id="library-panel" role="region" aria-label="Bibliothèque de prompts"></div>
 
     <!-- ======================== BOUTONS D'ACTION ======================== -->
     <div class="actions">
@@ -174,7 +178,7 @@
   </footer>
 
   <!-- Conteneur pour les notifications toast (messages éphémères) -->
-  <div class="toast" id="toast"></div>
+  <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 
   <!-- Point d'entrée JavaScript (module ES6, bundlé en production) -->
   <script type="module" src="js/main.js"></script>

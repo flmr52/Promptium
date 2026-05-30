@@ -65,6 +65,9 @@ function initLangSwitcher() {
     const lang = getLang();
     btnFr.classList.toggle('active', lang === 'fr');
     btnEn.classList.toggle('active', lang === 'en');
+    // Accessibilité : mettre à jour aria-pressed
+    btnFr.setAttribute('aria-pressed', lang === 'fr');
+    btnEn.setAttribute('aria-pressed', lang === 'en');
   }
 
   btnFr.addEventListener('click', () => {
@@ -117,6 +120,9 @@ function initPromptLoading() {
     } else {
       clearEditMode();
     }
+
+    // Scroll vers le builder pour voir les champs remplis
+    document.querySelector('.fields-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 }
 

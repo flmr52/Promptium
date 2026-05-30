@@ -30,6 +30,9 @@ export function showConfirm(title, message) {
     const overlay = createOverlay();
     const modal = document.createElement('div');
     modal.className = 'modal';
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', title);
     modal.innerHTML = `
       <div class="modal-header">${title}</div>
       <div class="modal-body">${message}</div>
@@ -42,15 +45,17 @@ export function showConfirm(title, message) {
     overlay.appendChild(modal);
     document.body.appendChild(overlay);
 
-    // Fermer avec Annuler ou clic sur l'overlay
-    modal.querySelector('.modal-cancel').addEventListener('click', () => {
-      close(overlay);
-      resolve(false);
-    });
+    // Fermer avec Annuler, clic sur l'overlay, ou touche Escape
+    const dismiss = () => { close(overlay); resolve(false); };
+
+    modal.querySelector('.modal-cancel').addEventListener('click', dismiss);
     overlay.addEventListener('click', (e) => {
-      if (e.target === overlay) {
-        close(overlay);
-        resolve(false);
+      if (e.target === overlay) dismiss();
+    });
+    document.addEventListener('keydown', function onKey(e) {
+      if (e.key === 'Escape') {
+        document.removeEventListener('keydown', onKey);
+        dismiss();
       }
     });
 
@@ -82,6 +87,9 @@ export function showSaveForm(categories, lang, defaults = {}) {
     const overlay = createOverlay();
     const modal = document.createElement('div');
     modal.className = 'modal';
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', t('modal_save_title'));
 
     // Construire les options du dropdown catégorie
     const categoryOptions = categories.map(cat => {
@@ -123,15 +131,17 @@ export function showSaveForm(categories, lang, defaults = {}) {
     titleInput.focus();
     titleInput.select();
 
-    // Annuler
-    modal.querySelector('.modal-cancel').addEventListener('click', () => {
-      close(overlay);
-      resolve(null);
-    });
+    // Annuler : bouton, clic overlay, ou Escape
+    const dismiss = () => { close(overlay); resolve(null); };
+
+    modal.querySelector('.modal-cancel').addEventListener('click', dismiss);
     overlay.addEventListener('click', (e) => {
-      if (e.target === overlay) {
-        close(overlay);
-        resolve(null);
+      if (e.target === overlay) dismiss();
+    });
+    document.addEventListener('keydown', function onKey(e) {
+      if (e.key === 'Escape') {
+        document.removeEventListener('keydown', onKey);
+        dismiss();
       }
     });
 
