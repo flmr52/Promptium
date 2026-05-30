@@ -7,5 +7,210 @@
     { "id": "cat-education", "name": { "fr": "Éducation", "en": "Education" }, "isDefault": true, "order": 4 },
     { "id": "cat-business", "name": { "fr": "Business", "en": "Business" }, "isDefault": true, "order": 5 }
   ],
-  "prompts": []
+  "prompts": [
+    {
+      "id": "default-001",
+      "title": { "fr": "Article de blog SEO", "en": "SEO Blog Post" },
+      "content": {
+        "context": { "fr": "Je gère un blog professionnel et je souhaite améliorer mon référencement naturel avec du contenu de qualité.", "en": "I manage a professional blog and want to improve my SEO with quality content." },
+        "role": { "fr": "Tu es un rédacteur web expert en SEO avec 10 ans d'expérience en content marketing.", "en": "You are a web copywriter expert in SEO with 10 years of content marketing experience." },
+        "action": { "fr": "Rédige un article de blog optimisé SEO de 800 mots sur le sujet que je te donnerai, avec des titres H2/H3, des mots-clés naturellement intégrés et une méta-description.", "en": "Write an 800-word SEO-optimized blog post on the topic I'll provide, with H2/H3 headings, naturally integrated keywords, and a meta description." },
+        "format": { "fr": "Article structuré en Markdown avec : titre H1, introduction accrocheuse, 3-4 sections H2, conclusion avec appel à l'action, et méta-description de 155 caractères.", "en": "Structured article in Markdown with: H1 title, engaging intro, 3-4 H2 sections, conclusion with CTA, and 155-character meta description." },
+        "target": { "fr": "Lecteurs professionnels cherchant des informations pratiques et actionnables.", "en": "Professional readers looking for practical, actionable information." }
+      },
+      "categoryId": "cat-writing",
+      "tags": ["seo", "blog", "rédaction"],
+      "isDefault": true,
+      "favorite": false,
+      "createdAt": "2026-01-01T00:00:00.000Z",
+      "updatedAt": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "default-002",
+      "title": { "fr": "Email de relance client", "en": "Client Follow-up Email" },
+      "content": {
+        "context": { "fr": "Je dois relancer un client qui n'a pas répondu à mon devis envoyé il y a une semaine.", "en": "I need to follow up with a client who hasn't responded to my quote sent a week ago." },
+        "role": { "fr": "Tu es un commercial expérimenté qui sait relancer avec tact et professionnalisme sans être insistant.", "en": "You are an experienced sales professional who knows how to follow up tactfully without being pushy." },
+        "action": { "fr": "Rédige un email de relance professionnel, chaleureux mais pas insistant, qui rappelle la proposition et propose un échange.", "en": "Write a professional, warm but not pushy follow-up email that recalls the proposal and suggests a discussion." },
+        "format": { "fr": "Email court (150 mots max) avec objet, corps et signature. Ton professionnel mais humain.", "en": "Short email (150 words max) with subject line, body, and signature. Professional but human tone." },
+        "target": { "fr": "Un décideur occupé qui reçoit beaucoup d'emails et qui a besoin d'être convaincu rapidement.", "en": "A busy decision-maker who receives many emails and needs to be convinced quickly." }
+      },
+      "categoryId": "cat-business",
+      "tags": ["email", "relance", "commercial"],
+      "isDefault": true,
+      "favorite": false,
+      "createdAt": "2026-01-01T00:00:00.000Z",
+      "updatedAt": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "default-003",
+      "title": { "fr": "Plan marketing digital", "en": "Digital Marketing Plan" },
+      "content": {
+        "context": { "fr": "Je lance un nouveau produit/service et j'ai besoin d'une stratégie marketing digitale complète pour les 3 premiers mois.", "en": "I'm launching a new product/service and need a complete digital marketing strategy for the first 3 months." },
+        "role": { "fr": "Tu es un directeur marketing digital avec une expertise en stratégie multicanale et growth hacking.", "en": "You are a digital marketing director with expertise in multichannel strategy and growth hacking." },
+        "action": { "fr": "Crée un plan marketing digital sur 3 mois avec les canaux prioritaires, le budget indicatif, les KPIs à suivre et un calendrier d'actions.", "en": "Create a 3-month digital marketing plan with priority channels, indicative budget, KPIs to track, and an action calendar." },
+        "format": { "fr": "Plan structuré avec : objectifs SMART, stratégie par canal (SEO, réseaux sociaux, email, paid), calendrier semaine par semaine, KPIs et budget.", "en": "Structured plan with: SMART objectives, channel strategy (SEO, social, email, paid), week-by-week calendar, KPIs and budget." },
+        "target": { "fr": "Un entrepreneur ou responsable marketing qui doit exécuter ce plan avec une petite équipe.", "en": "An entrepreneur or marketing manager who needs to execute this plan with a small team." }
+      },
+      "categoryId": "cat-marketing",
+      "tags": ["marketing", "stratégie", "lancement"],
+      "isDefault": true,
+      "favorite": false,
+      "createdAt": "2026-01-01T00:00:00.000Z",
+      "updatedAt": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "default-004",
+      "title": { "fr": "Publication LinkedIn engageante", "en": "Engaging LinkedIn Post" },
+      "content": {
+        "context": { "fr": "Je souhaite développer ma visibilité professionnelle sur LinkedIn en publiant du contenu à forte valeur ajoutée.", "en": "I want to develop my professional visibility on LinkedIn by publishing high-value content." },
+        "role": { "fr": "Tu es un expert en personal branding et en rédaction pour les réseaux sociaux professionnels.", "en": "You are an expert in personal branding and professional social media copywriting." },
+        "action": { "fr": "Rédige une publication LinkedIn engageante sur le thème que je te donnerai, avec un hook percutant, du storytelling et un appel à l'interaction.", "en": "Write an engaging LinkedIn post on the topic I'll provide, with a strong hook, storytelling, and a call to interaction." },
+        "format": { "fr": "Post de 200 mots max avec : accroche en 1 ligne, développement en paragraphes courts, conclusion avec question ouverte. Pas de hashtags abusifs (3 max).", "en": "Post of 200 words max with: 1-line hook, short paragraph development, conclusion with open question. No hashtag abuse (3 max)." },
+        "target": { "fr": "Professionnels de mon secteur qui scrollent rapidement et doivent être captés dès la première ligne.", "en": "Professionals in my industry who scroll quickly and need to be captured from the first line." }
+      },
+      "categoryId": "cat-marketing",
+      "tags": ["linkedin", "réseaux sociaux", "personal branding"],
+      "isDefault": true,
+      "favorite": false,
+      "createdAt": "2026-01-01T00:00:00.000Z",
+      "updatedAt": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "default-005",
+      "title": { "fr": "Revue de code détaillée", "en": "Detailed Code Review" },
+      "content": {
+        "context": { "fr": "Je travaille sur un projet et je souhaite faire relire mon code pour identifier les bugs, les mauvaises pratiques et les opportunités d'amélioration.", "en": "I'm working on a project and want my code reviewed to identify bugs, bad practices, and improvement opportunities." },
+        "role": { "fr": "Tu es un développeur senior avec 15 ans d'expérience, expert en clean code, design patterns et performance.", "en": "You are a senior developer with 15 years of experience, expert in clean code, design patterns, and performance." },
+        "action": { "fr": "Fais une revue de code détaillée du code que je vais te fournir. Identifie les bugs potentiels, les problèmes de performance, les violations de bonnes pratiques et propose des améliorations concrètes.", "en": "Do a detailed code review of the code I'll provide. Identify potential bugs, performance issues, best practice violations, and propose concrete improvements." },
+        "format": { "fr": "Liste structurée par catégorie (Bugs, Performance, Lisibilité, Sécurité) avec pour chaque point : localisation, problème, suggestion de correction avec exemple de code.", "en": "Structured list by category (Bugs, Performance, Readability, Security) with for each point: location, issue, fix suggestion with code example." },
+        "target": { "fr": "Un développeur intermédiaire qui veut progresser et comprendre le raisonnement derrière chaque suggestion.", "en": "An intermediate developer who wants to improve and understand the reasoning behind each suggestion." }
+      },
+      "categoryId": "cat-dev",
+      "tags": ["code review", "qualité", "bonnes pratiques"],
+      "isDefault": true,
+      "favorite": false,
+      "createdAt": "2026-01-01T00:00:00.000Z",
+      "updatedAt": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "default-006",
+      "title": { "fr": "Explication pédagogique", "en": "Educational Explanation" },
+      "content": {
+        "context": { "fr": "Je dois expliquer un concept technique ou complexe à un public qui n'a pas de connaissances préalables sur le sujet.", "en": "I need to explain a technical or complex concept to an audience with no prior knowledge on the topic." },
+        "role": { "fr": "Tu es un enseignant passionné qui excelle dans la vulgarisation. Tu utilises des analogies du quotidien et tu t'assures que chaque étape est comprise avant de passer à la suivante.", "en": "You are a passionate teacher who excels at simplification. You use everyday analogies and ensure each step is understood before moving to the next." },
+        "action": { "fr": "Explique le concept que je te donnerai de manière progressive, en partant de zéro. Utilise des analogies, des exemples concrets et vérifie la compréhension à chaque étape.", "en": "Explain the concept I'll provide progressively, starting from zero. Use analogies, concrete examples, and check understanding at each step." },
+        "format": { "fr": "Explication en 3 niveaux de profondeur : 1) Analogie simple (1 phrase), 2) Explication développée avec exemple, 3) Détails techniques pour aller plus loin.", "en": "Explanation in 3 depth levels: 1) Simple analogy (1 sentence), 2) Developed explanation with example, 3) Technical details to go further." },
+        "target": { "fr": "Un débutant complet qui découvre le sujet pour la première fois et qui apprend mieux avec des exemples visuels.", "en": "A complete beginner discovering the topic for the first time who learns better with visual examples." }
+      },
+      "categoryId": "cat-education",
+      "tags": ["pédagogie", "vulgarisation", "explication"],
+      "isDefault": true,
+      "favorite": false,
+      "createdAt": "2026-01-01T00:00:00.000Z",
+      "updatedAt": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "default-007",
+      "title": { "fr": "Résumé de document", "en": "Document Summary" },
+      "content": {
+        "context": { "fr": "J'ai un document long (article, rapport, livre) et je dois en extraire les informations essentielles rapidement.", "en": "I have a long document (article, report, book) and need to extract the essential information quickly." },
+        "role": { "fr": "Tu es un analyste expert en synthèse documentaire, capable d'identifier les idées clés et de les hiérarchiser.", "en": "You are an expert document analyst, capable of identifying key ideas and prioritizing them." },
+        "action": { "fr": "Résume le document que je vais te fournir en identifiant les idées principales, les arguments clés et les conclusions. Distingue les faits des opinions.", "en": "Summarize the document I'll provide by identifying main ideas, key arguments, and conclusions. Distinguish facts from opinions." },
+        "format": { "fr": "Résumé structuré avec : points clés (5 max), résumé exécutif (100 mots), points d'action identifiés, et questions ouvertes restantes.", "en": "Structured summary with: key points (5 max), executive summary (100 words), identified action items, and remaining open questions." },
+        "target": { "fr": "Un professionnel pressé qui a besoin de décider rapidement si le document mérite une lecture approfondie.", "en": "A busy professional who needs to quickly decide if the document deserves a thorough reading." }
+      },
+      "categoryId": "cat-writing",
+      "tags": ["résumé", "synthèse", "analyse"],
+      "isDefault": true,
+      "favorite": false,
+      "createdAt": "2026-01-01T00:00:00.000Z",
+      "updatedAt": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "default-008",
+      "title": { "fr": "Débogage de code", "en": "Code Debugging" },
+      "content": {
+        "context": { "fr": "Mon code ne fonctionne pas comme prévu et j'ai besoin d'aide pour identifier et corriger le bug.", "en": "My code isn't working as expected and I need help identifying and fixing the bug." },
+        "role": { "fr": "Tu es un développeur senior expert en debugging, qui procède méthodiquement pour isoler les problèmes.", "en": "You are a senior developer expert in debugging, who proceeds methodically to isolate problems." },
+        "action": { "fr": "Analyse le code que je vais te fournir, identifie la cause du bug, explique pourquoi il se produit et propose une correction avec le code corrigé.", "en": "Analyze the code I'll provide, identify the bug cause, explain why it occurs, and propose a fix with corrected code." },
+        "format": { "fr": "Réponse structurée : 1) Problème identifié, 2) Explication de la cause, 3) Code corrigé, 4) Comment éviter ce type de bug à l'avenir.", "en": "Structured response: 1) Identified problem, 2) Cause explanation, 3) Corrected code, 4) How to avoid this type of bug in the future." },
+        "target": { "fr": "Un développeur qui veut non seulement corriger le bug mais aussi comprendre pourquoi il s'est produit.", "en": "A developer who wants not only to fix the bug but also understand why it occurred." }
+      },
+      "categoryId": "cat-dev",
+      "tags": ["debug", "correction", "code"],
+      "isDefault": true,
+      "favorite": false,
+      "createdAt": "2026-01-01T00:00:00.000Z",
+      "updatedAt": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "default-009",
+      "title": { "fr": "Création de quiz pédagogique", "en": "Educational Quiz Creation" },
+      "content": {
+        "context": { "fr": "Je crée une formation et j'ai besoin de quiz pour évaluer la compréhension des apprenants à la fin de chaque module.", "en": "I'm creating a training course and need quizzes to assess learner understanding at the end of each module." },
+        "role": { "fr": "Tu es un ingénieur pédagogique expert en évaluation formative et en conception de questionnaires engageants.", "en": "You are an instructional designer expert in formative assessment and engaging questionnaire design." },
+        "action": { "fr": "Crée un quiz de 10 questions sur le sujet que je te donnerai, avec un mix de types (QCM, vrai/faux, texte à trous) et des explications pour chaque réponse.", "en": "Create a 10-question quiz on the topic I'll provide, with a mix of types (MCQ, true/false, fill-in-the-blank) and explanations for each answer." },
+        "format": { "fr": "Quiz numéroté avec : question, options de réponse, bonne réponse indiquée, et explication pédagogique courte pour chaque question.", "en": "Numbered quiz with: question, answer options, correct answer indicated, and short educational explanation for each question." },
+        "target": { "fr": "Des apprenants adultes en formation continue qui ont besoin de valider leurs acquis de manière ludique.", "en": "Adult learners in continuing education who need to validate their knowledge in an engaging way." }
+      },
+      "categoryId": "cat-education",
+      "tags": ["quiz", "formation", "évaluation"],
+      "isDefault": true,
+      "favorite": false,
+      "createdAt": "2026-01-01T00:00:00.000Z",
+      "updatedAt": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "default-010",
+      "title": { "fr": "Proposition commerciale", "en": "Business Proposal" },
+      "content": {
+        "context": { "fr": "Je dois rédiger une proposition commerciale pour un prospect qui a exprimé un besoin spécifique lors d'un premier échange.", "en": "I need to write a business proposal for a prospect who expressed a specific need during an initial meeting." },
+        "role": { "fr": "Tu es un consultant en développement commercial expert en rédaction de propositions qui convertissent.", "en": "You are a business development consultant expert in writing proposals that convert." },
+        "action": { "fr": "Rédige une proposition commerciale professionnelle qui reprend le besoin du client, présente la solution, détaille les bénéfices et inclut un appel à l'action clair.", "en": "Write a professional business proposal that addresses the client's need, presents the solution, details the benefits, and includes a clear call to action." },
+        "format": { "fr": "Document structuré avec : rappel du contexte, solution proposée, bénéfices clés (3-5), modalités pratiques, prochaines étapes. Ton professionnel et confiant.", "en": "Structured document with: context recap, proposed solution, key benefits (3-5), practical terms, next steps. Professional and confident tone." },
+        "target": { "fr": "Un décideur B2B qui doit justifier l'investissement auprès de sa hiérarchie.", "en": "A B2B decision-maker who needs to justify the investment to their management." }
+      },
+      "categoryId": "cat-business",
+      "tags": ["proposition", "commercial", "vente"],
+      "isDefault": true,
+      "favorite": false,
+      "createdAt": "2026-01-01T00:00:00.000Z",
+      "updatedAt": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "default-011",
+      "title": { "fr": "Script vidéo YouTube", "en": "YouTube Video Script" },
+      "content": {
+        "context": { "fr": "Je produis du contenu vidéo éducatif sur YouTube et je dois rédiger des scripts engageants qui retiennent l'attention.", "en": "I produce educational video content on YouTube and need to write engaging scripts that retain attention." },
+        "role": { "fr": "Tu es un scénariste YouTube expert en storytelling et en rétention d'audience, spécialisé dans le contenu éducatif.", "en": "You are a YouTube scriptwriter expert in storytelling and audience retention, specialized in educational content." },
+        "action": { "fr": "Écris un script vidéo de 8-10 minutes sur le sujet que je te donnerai, avec un hook d'ouverture fort, des transitions fluides et une structure qui maintient l'attention.", "en": "Write an 8-10 minute video script on the topic I'll provide, with a strong opening hook, smooth transitions, and an attention-maintaining structure." },
+        "format": { "fr": "Script avec timecodes indicatifs, séparé en sections : Hook (0-30s), Intro (30s-1min), Contenu principal (sections numérotées), Conclusion + CTA.", "en": "Script with indicative timecodes, separated into sections: Hook (0-30s), Intro (30s-1min), Main content (numbered sections), Conclusion + CTA." },
+        "target": { "fr": "Une audience YouTube qui zappe facilement et qui cherche à apprendre quelque chose de concret en moins de 10 minutes.", "en": "A YouTube audience that easily skips and wants to learn something concrete in less than 10 minutes." }
+      },
+      "categoryId": "cat-writing",
+      "tags": ["youtube", "vidéo", "script"],
+      "isDefault": true,
+      "favorite": false,
+      "createdAt": "2026-01-01T00:00:00.000Z",
+      "updatedAt": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "default-012",
+      "title": { "fr": "Architecture technique", "en": "Technical Architecture" },
+      "content": {
+        "context": { "fr": "Je dois concevoir l'architecture technique d'une nouvelle application et je souhaite explorer les options avant de me lancer.", "en": "I need to design the technical architecture of a new application and want to explore options before starting." },
+        "role": { "fr": "Tu es un architecte logiciel senior avec une vision pragmatique, qui privilégie la simplicité et la maintenabilité.", "en": "You are a senior software architect with a pragmatic vision, who prioritizes simplicity and maintainability." },
+        "action": { "fr": "Propose une architecture technique pour le projet que je vais te décrire, en justifiant chaque choix technologique et en identifiant les trade-offs.", "en": "Propose a technical architecture for the project I'll describe, justifying each technology choice and identifying trade-offs." },
+        "format": { "fr": "Document technique avec : vue d'ensemble, stack recommandé (avec justifications), schéma des composants, points d'attention, et alternatives considérées.", "en": "Technical document with: overview, recommended stack (with justifications), component diagram, attention points, and considered alternatives." },
+        "target": { "fr": "Une équipe technique qui doit comprendre les choix et pouvoir les challenger.", "en": "A technical team that needs to understand the choices and be able to challenge them." }
+      },
+      "categoryId": "cat-dev",
+      "tags": ["architecture", "technique", "conception"],
+      "isDefault": true,
+      "favorite": false,
+      "createdAt": "2026-01-01T00:00:00.000Z",
+      "updatedAt": "2026-01-01T00:00:00.000Z"
+    }
+  ]
 }
