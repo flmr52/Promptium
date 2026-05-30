@@ -475,8 +475,10 @@ textarea:focus {
 /* Panneau bibliothèque à l'intérieur du drawer */
 .library-panel {
   flex: 1;
-  overflow-y: auto;
+  overflow: hidden;
   padding: 1rem 1.25rem 1.25rem;
+  display: flex;
+  flex-direction: column;
 }
 
 /* ======================== BOUTON ICÔNE (HEADER) ======================== */
@@ -624,7 +626,7 @@ textarea:focus {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  max-height: 400px;
+  flex: 1;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: var(--border) transparent;
