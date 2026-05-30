@@ -1,8 +1,19 @@
+/**
+ * ============================================================
+ * TESTS UNITAIRES : Utilitaire Markdown
+ * ============================================================
+ * Vérifie la génération correcte du document Markdown C.R.A.F.T. :
+ * - Tous les champs remplis → document complet
+ * - Champs vides → omis dans le résultat
+ * - Gestion des espaces et du multilangue
+ * ============================================================
+ */
+
 import { describe, it, expect } from 'vitest';
 import { generateMarkdown } from '../../src/js/utils/markdown.js';
 
 describe('generateMarkdown', () => {
-  it('generates full markdown with all fields', () => {
+  it('génère le Markdown complet avec tous les champs', () => {
     const content = {
       context: 'Mon contexte',
       role: 'Mon rôle',
@@ -19,7 +30,7 @@ describe('generateMarkdown', () => {
     expect(result).toContain('## Cible\n\nMa cible');
   });
 
-  it('generates english labels when lang is en', () => {
+  it('utilise les labels anglais quand lang=en', () => {
     const content = { context: 'My context', role: '', action: 'My action', format: '', target: '' };
     const result = generateMarkdown(content, 'en');
     expect(result).toContain('## Context\n\nMy context');
@@ -27,25 +38,25 @@ describe('generateMarkdown', () => {
     expect(result).not.toContain('## Role');
   });
 
-  it('skips empty fields', () => {
+  it('ignore les champs vides', () => {
     const content = { context: 'Only this', role: '', action: '', format: '', target: '' };
     const result = generateMarkdown(content, 'fr');
     expect(result).toContain('## Contexte\n\nOnly this');
     expect(result).not.toContain('## Rôle');
   });
 
-  it('returns empty string when all fields empty', () => {
+  it('retourne une chaîne vide si tous les champs sont vides', () => {
     const content = { context: '', role: '', action: '', format: '', target: '' };
     expect(generateMarkdown(content, 'fr')).toBe('');
   });
 
-  it('trims whitespace from fields', () => {
+  it('supprime les espaces en début et fin des champs', () => {
     const content = { context: '  test  ', role: '', action: '', format: '', target: '' };
     const result = generateMarkdown(content, 'fr');
     expect(result).toContain('## Contexte\n\ntest');
   });
 
-  it('skips whitespace-only fields', () => {
+  it('ignore les champs contenant uniquement des espaces', () => {
     const content = { context: '   ', role: 'valid', action: '', format: '', target: '' };
     const result = generateMarkdown(content, 'fr');
     expect(result).not.toContain('## Contexte');

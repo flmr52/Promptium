@@ -1,3 +1,16 @@
+/**
+ * ============================================================
+ * TESTS UNITAIRES : Module Bibliothèque (Library)
+ * ============================================================
+ * Vérifie le module central de gestion des prompts :
+ * - Chargement des prompts par défaut
+ * - Fusion des collections (défaut + utilisateur)
+ * - CRUD complet (création, modification, suppression)
+ * - Duplication de prompts (résolution bilingue)
+ * - Protection des prompts par défaut (lecture seule)
+ * ============================================================
+ */
+
 import { describe, it, expect, beforeEach } from 'vitest';
 import {
   loadDefaults,
@@ -12,6 +25,7 @@ import {
   duplicatePrompt
 } from '../../src/js/modules/library.js';
 
+// Données de test simulant le contenu de default-prompts.json
 const mockDefaults = {
   version: 1,
   categories: [
@@ -38,58 +52,65 @@ const mockDefaults = {
   ]
 };
 
+// Charger les données par défaut et vider le localStorage avant chaque test
 beforeEach(() => {
   localStorage.clear();
   loadDefaults(mockDefaults);
 });
 
 describe('library', () => {
+  // --- Chargement des données par défaut ---
   describe('loadDefaults', () => {
-    it('loads default prompts', () => {
+    it('charge les prompts par défaut', () => {
       expect(getDefaultPrompts()).toHaveLength(1);
     });
 
-    it('handles null gracefully', () => {
+    it('gère un appel avec null sans crash', () => {
       loadDefaults(null);
-      expect(getDefaultPrompts()).toHaveLength(1); // retains previous
+      // Les prompts précédemment chargés sont conservés
+      expect(getDefaultPrompts()).toHaveLength(1);
     });
   });
 
+  // --- Lecture de tous les prompts ---
   describe('getAllPrompts', () => {
-    it('returns defaults when no user prompts', () => {
+    it('retourne les prompts par défaut quand aucun prompt utilisateur', () => {
       expect(getAllPrompts()).toHaveLength(1);
     });
 
-    it('merges defaults and user prompts', () => {
+    it('fusionne les prompts par défaut et utilisateur', () => {
       createPrompt({ title: 'User prompt', content: { context: 'test' } });
       expect(getAllPrompts()).toHaveLength(2);
     });
   });
 
+  // --- Prompts utilisateur ---
   describe('getUserPrompts', () => {
-    it('returns empty initially', () => {
+    it('retourne un tableau vide initialement', () => {
       expect(getUserPrompts()).toHaveLength(0);
     });
   });
 
+  // --- Recherche par ID ---
   describe('getPromptById', () => {
-    it('finds a default prompt', () => {
+    it('trouve un prompt par défaut', () => {
       const p = getPromptById('default-001');
       expect(p.title.fr).toBe('Article SEO');
     });
 
-    it('finds a user prompt', () => {
+    it('trouve un prompt utilisateur', () => {
       const created = createPrompt({ title: 'Mon prompt' });
       expect(getPromptById(created.id).title).toBe('Mon prompt');
     });
 
-    it('returns undefined for unknown id', () => {
+    it('retourne undefined pour un ID inconnu', () => {
       expect(getPromptById('unknown')).toBeUndefined();
     });
   });
 
+  // --- Création de prompts ---
   describe('createPrompt', () => {
-    it('creates with id and timestamps', () => {
+    it('crée avec un ID, des timestamps et des valeurs par défaut', () => {
       const p = createPrompt({ title: 'Nouveau', content: { context: 'ctx' } });
       expect(p.id).toBeTruthy();
       expect(p.createdAt).toBeTruthy();
@@ -98,21 +119,22 @@ describe('library', () => {
       expect(p.favorite).toBe(false);
     });
 
-    it('defaults empty fields', () => {
+    it('utilise des valeurs vides par défaut pour les champs manquants', () => {
       const p = createPrompt({});
       expect(p.title).toBe('');
       expect(p.tags).toEqual([]);
       expect(p.categoryId).toBeNull();
     });
 
-    it('persists in localStorage', () => {
+    it('persiste dans localStorage', () => {
       createPrompt({ title: 'Persisted' });
       expect(getUserPrompts()).toHaveLength(1);
     });
   });
 
+  // --- Modification de prompts ---
   describe('updatePrompt', () => {
-    it('updates title and updatedAt', () => {
+    it('met à jour le titre et le timestamp updatedAt', () => {
       const p = createPrompt({ title: 'Old' });
       const updated = updatePrompt(p.id, { title: 'New' });
       expect(updated.title).toBe('New');
@@ -120,52 +142,55 @@ describe('library', () => {
       expect(updated.id).toBe(p.id);
     });
 
-    it('returns null for unknown id', () => {
+    it('retourne null pour un ID inconnu', () => {
       expect(updatePrompt('nonexistent', { title: 'x' })).toBeNull();
     });
 
-    it('cannot update default prompt', () => {
+    it('ne peut pas modifier un prompt par défaut', () => {
       expect(updatePrompt('default-001', { title: 'x' })).toBeNull();
     });
   });
 
+  // --- Suppression de prompts ---
   describe('deletePrompt', () => {
-    it('deletes a user prompt', () => {
+    it('supprime un prompt utilisateur', () => {
       const p = createPrompt({ title: 'Temp' });
       expect(deletePrompt(p.id)).toBe(true);
       expect(getUserPrompts()).toHaveLength(0);
     });
 
-    it('returns false for default prompt', () => {
+    it('ne peut pas supprimer un prompt par défaut', () => {
       expect(deletePrompt('default-001')).toBe(false);
     });
 
-    it('returns false for unknown id', () => {
+    it('retourne false pour un ID inconnu', () => {
       expect(deletePrompt('nonexistent')).toBe(false);
     });
   });
 
+  // --- Duplication de prompts ---
   describe('duplicatePrompt', () => {
-    it('duplicates a default prompt as user prompt', () => {
+    it('duplique un prompt par défaut en prompt utilisateur', () => {
       const dup = duplicatePrompt('default-001');
       expect(dup.isDefault).toBe(false);
       expect(dup.title).toContain('Article SEO');
       expect(dup.title).toContain('(copie)');
+      // Le contenu bilingue est résolu en français
       expect(dup.content.context).toBe('Blog pro');
     });
 
-    it('duplicates a user prompt', () => {
+    it('duplique un prompt utilisateur', () => {
       const p = createPrompt({ title: 'Original', content: { context: 'hello' } });
       const dup = duplicatePrompt(p.id);
       expect(dup.title).toBe('Original (copie)');
       expect(dup.id).not.toBe(p.id);
     });
 
-    it('returns null for unknown id', () => {
+    it('retourne null pour un ID inconnu', () => {
       expect(duplicatePrompt('nonexistent')).toBeNull();
     });
 
-    it('resolves bilingual content to french', () => {
+    it('résout le contenu bilingue en français', () => {
       const dup = duplicatePrompt('default-001');
       expect(dup.content.role).toBe('Rédacteur');
     });

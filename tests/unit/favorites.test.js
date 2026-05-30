@@ -1,7 +1,20 @@
+/**
+ * ============================================================
+ * TESTS UNITAIRES : Module Favoris
+ * ============================================================
+ * Vérifie :
+ * - Le basculement d'un prompt en favori (toggleFavorite)
+ * - La définition explicite du statut favori (setFavorite)
+ * - Le filtrage des favoris (getFavorites)
+ * - La vérification du statut favori (isFavorite)
+ * ============================================================
+ */
+
 import { describe, it, expect, beforeEach } from 'vitest';
 import { toggleFavorite, setFavorite, getFavorites, isFavorite } from '../../src/js/modules/favorites.js';
 import { setAll } from '../../src/js/modules/storage.js';
 
+// Préparer 3 prompts de test avant chaque test (p2 est favori)
 beforeEach(() => {
   localStorage.clear();
   setAll('prompts', [
@@ -12,46 +25,49 @@ beforeEach(() => {
 });
 
 describe('favorites', () => {
+  // --- Basculement du statut favori ---
   describe('toggleFavorite', () => {
-    it('toggles false to true', () => {
+    it('passe de false à true', () => {
       expect(toggleFavorite('p1')).toBe(true);
     });
 
-    it('toggles true to false', () => {
+    it('passe de true à false', () => {
       expect(toggleFavorite('p2')).toBe(false);
     });
 
-    it('returns null for unknown prompt', () => {
+    it('retourne null pour un prompt inconnu', () => {
       expect(toggleFavorite('nonexistent')).toBeNull();
     });
 
-    it('persists the change', () => {
+    it('persiste le changement dans localStorage', () => {
       toggleFavorite('p1');
       const prompts = JSON.parse(localStorage.getItem('promptium_prompts'));
       expect(prompts.find(p => p.id === 'p1').favorite).toBe(true);
     });
   });
 
+  // --- Définition explicite du favori ---
   describe('setFavorite', () => {
-    it('sets a prompt as favorite', () => {
+    it('marque un prompt comme favori', () => {
       expect(setFavorite('p1', true)).toBe(true);
       const prompts = JSON.parse(localStorage.getItem('promptium_prompts'));
       expect(prompts.find(p => p.id === 'p1').favorite).toBe(true);
     });
 
-    it('removes favorite status', () => {
+    it('retire le statut favori', () => {
       expect(setFavorite('p2', false)).toBe(true);
       const prompts = JSON.parse(localStorage.getItem('promptium_prompts'));
       expect(prompts.find(p => p.id === 'p2').favorite).toBe(false);
     });
 
-    it('returns false for unknown prompt', () => {
+    it('retourne false pour un prompt inconnu', () => {
       expect(setFavorite('nonexistent', true)).toBe(false);
     });
   });
 
+  // --- Filtrage des favoris ---
   describe('getFavorites', () => {
-    it('returns only favorited prompts', () => {
+    it('retourne uniquement les prompts marqués favoris', () => {
       const prompts = [
         { id: 'p1', favorite: false },
         { id: 'p2', favorite: true },
@@ -60,24 +76,25 @@ describe('favorites', () => {
       expect(getFavorites(prompts)).toHaveLength(2);
     });
 
-    it('returns empty array when no favorites', () => {
+    it('retourne un tableau vide si aucun favori', () => {
       const prompts = [{ id: 'p1', favorite: false }];
       expect(getFavorites(prompts)).toHaveLength(0);
     });
   });
 
+  // --- Vérification du statut ---
   describe('isFavorite', () => {
-    it('returns true for favorited prompt', () => {
+    it('retourne true pour un prompt favori', () => {
       const prompts = [{ id: 'p1', favorite: true }];
       expect(isFavorite(prompts, 'p1')).toBe(true);
     });
 
-    it('returns false for non-favorited prompt', () => {
+    it('retourne false pour un prompt non favori', () => {
       const prompts = [{ id: 'p1', favorite: false }];
       expect(isFavorite(prompts, 'p1')).toBe(false);
     });
 
-    it('returns false for unknown prompt', () => {
+    it('retourne false pour un prompt inconnu', () => {
       expect(isFavorite([], 'unknown')).toBe(false);
     });
   });

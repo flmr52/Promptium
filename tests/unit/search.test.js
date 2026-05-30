@@ -1,6 +1,20 @@
+/**
+ * ============================================================
+ * TESTS UNITAIRES : Module Recherche (Search)
+ * ============================================================
+ * Vérifie la recherche instantanée :
+ * - Recherche dans le titre (string et objet bilingue)
+ * - Recherche dans les champs de contenu C.R.A.F.T.
+ * - Recherche dans les tags
+ * - Insensibilité à la casse et aux accents
+ * - Gestion des requêtes vides et des données incomplètes
+ * ============================================================
+ */
+
 import { describe, it, expect } from 'vitest';
 import { filterPrompts } from '../../src/js/modules/search.js';
 
+// Jeu de données de test avec différents types de titres et contenus
 const prompts = [
   {
     id: '1',
@@ -24,58 +38,66 @@ const prompts = [
 
 describe('search', () => {
   describe('filterPrompts', () => {
-    it('returns all prompts when query is empty', () => {
+    // --- Requêtes vides : retourne tout ---
+    it('retourne tous les prompts quand la requête est vide', () => {
       expect(filterPrompts(prompts, '')).toHaveLength(3);
     });
 
-    it('returns all prompts when query is whitespace', () => {
+    it('retourne tous les prompts quand la requête est un espace', () => {
       expect(filterPrompts(prompts, '   ')).toHaveLength(3);
     });
 
-    it('returns all prompts when query is null', () => {
+    it('retourne tous les prompts quand la requête est null', () => {
       expect(filterPrompts(prompts, null)).toHaveLength(3);
     });
 
-    it('searches in title (string)', () => {
+    // --- Recherche dans le titre ---
+    it('trouve par titre (string simple)', () => {
       expect(filterPrompts(prompts, 'SEO')).toHaveLength(1);
       expect(filterPrompts(prompts, 'seo')[0].id).toBe('1');
     });
 
-    it('searches in title (bilingual object)', () => {
+    it('trouve par titre (objet bilingue FR et EN)', () => {
       expect(filterPrompts(prompts, 'relance')).toHaveLength(1);
       expect(filterPrompts(prompts, 'follow-up')).toHaveLength(1);
     });
 
-    it('searches in content fields', () => {
+    // --- Recherche dans le contenu ---
+    it('trouve dans les champs de contenu C.R.A.F.T.', () => {
       expect(filterPrompts(prompts, 'React')).toHaveLength(1);
       expect(filterPrompts(prompts, 'react')[0].id).toBe('3');
     });
 
-    it('searches in tags', () => {
+    // --- Recherche dans les tags ---
+    it('trouve par tag', () => {
       expect(filterPrompts(prompts, 'javascript')).toHaveLength(1);
       expect(filterPrompts(prompts, 'blog')).toHaveLength(1);
     });
 
-    it('is case insensitive', () => {
+    // --- Insensibilité à la casse ---
+    it('est insensible à la casse (majuscules/minuscules)', () => {
       expect(filterPrompts(prompts, 'ARTICLE')).toHaveLength(1);
       expect(filterPrompts(prompts, 'article')).toHaveLength(1);
     });
 
-    it('is accent insensitive', () => {
+    // --- Insensibilité aux accents ---
+    it('est insensible aux accents (é → e)', () => {
       expect(filterPrompts(prompts, 'redige')).toHaveLength(2);
       expect(filterPrompts(prompts, 'Rédige')).toHaveLength(2);
     });
 
-    it('returns empty when no match', () => {
+    // --- Aucun résultat ---
+    it('retourne un tableau vide quand rien ne correspond', () => {
       expect(filterPrompts(prompts, 'zzzzz')).toHaveLength(0);
     });
 
-    it('handles prompts without tags', () => {
+    // --- Données incomplètes ---
+    it('gère les prompts sans tags', () => {
       const noTags = [{ id: '1', title: 'Test', content: { context: 'Hi' } }];
       expect(filterPrompts(noTags, 'Test')).toHaveLength(1);
     });
 
-    it('handles prompts without content', () => {
+    it('gère les prompts sans contenu', () => {
       const noContent = [{ id: '1', title: 'Test', tags: ['abc'] }];
       expect(filterPrompts(noContent, 'abc')).toHaveLength(1);
     });
