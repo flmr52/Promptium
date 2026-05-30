@@ -13,6 +13,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { exportToJSON, importFromJSON, downloadFile, readFile } from '../../src/js/modules/export-import.js';
 import { setAll, getAll } from '../../src/js/modules/storage.js';
+import { createPrompt } from '../../src/js/modules/library.js';
 
 beforeEach(() => {
   localStorage.clear();
@@ -40,6 +41,21 @@ describe('export-import', () => {
       const data = JSON.parse(exportToJSON());
       expect(data.prompts).toEqual([]);
       expect(data.categories).toEqual([]);
+    });
+
+    it('exporte un prompt créé via createPrompt (cycle complet)', () => {
+      const prompt = createPrompt({
+        title: 'Mon prompt',
+        content: { context: 'ctx', role: 'rôle', action: 'act', format: 'fmt', target: 'cible' },
+        categoryId: 'cat-writing',
+        tags: ['test']
+      });
+      const data = JSON.parse(exportToJSON());
+      expect(data.prompts).toHaveLength(1);
+      expect(data.prompts[0].id).toBe(prompt.id);
+      expect(data.prompts[0].title).toBe('Mon prompt');
+      expect(data.prompts[0].content.context).toBe('ctx');
+      expect(data.prompts[0].tags).toEqual(['test']);
     });
   });
 

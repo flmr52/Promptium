@@ -32,13 +32,18 @@ async function bundle() {
 
   // ---- Étape 1 : Bundler le JavaScript avec esbuild ----
   // Transforme les modules ES6 en un seul fichier IIFE minifié
+  // Le JSON des prompts par défaut est injecté comme constante globale PROMPTIUM_DEFAULTS
+  const defaultsJson = readFileSync(resolve(SRC, 'data/default-prompts.json'), 'utf-8');
+
   const result = await build({
     entryPoints: [resolve(SRC, 'js/main.js')],
     bundle: true,       // Résoudre tous les imports
     format: 'iife',     // Format auto-exécutable (pas besoin de type="module")
     minify: true,       // Réduire la taille
     write: false,       // Ne pas écrire sur disque, récupérer le contenu en mémoire
-    loader: { '.json': 'json' }  // Permettre l'import de fichiers JSON
+    define: {
+      'PROMPTIUM_DEFAULTS': defaultsJson  // Injecter le JSON comme variable globale
+    }
   });
 
   const js = result.outputFiles[0].text;

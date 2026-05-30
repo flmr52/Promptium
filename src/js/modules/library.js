@@ -118,6 +118,7 @@ export function createPrompt(data) {
     content: data.content || { context: '', role: '', action: '', format: '', target: '' },
     categoryId: data.categoryId || null,
     tags: data.tags || [],
+    lang: data.lang || 'fr',
     isDefault: false,
     favorite: false,
     createdAt: now,

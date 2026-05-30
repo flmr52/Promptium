@@ -9,7 +9,7 @@
  */
 
 import { setLang, getLang, t } from './modules/i18n.js';
-import { getPreferences, setPreferences, migrate } from './modules/storage.js';
+import { getPreferences, setPreferences, migrate, getAll } from './modules/storage.js';
 import { loadDefaults, createPrompt, updatePrompt } from './modules/library.js';
 import { getAllCategories } from './modules/categories.js';
 import { exportToJSON, downloadFile, importFromJSON, readFile } from './modules/export-import.js';
@@ -17,18 +17,36 @@ import { initBuilder, applyI18n, setFieldValues, getFieldValues, hasContent, set
 import { initLibrary, renderPromptList } from './ui/library-ui.js';
 import { showConfirm, showSaveForm } from './ui/modal-ui.js';
 import { showToast } from './ui/toast-ui.js';
-import defaultData from '../data/default-prompts.json';
+
+/**
+ * Charge les données par défaut.
+ * En production (build), le JSON est injecté via PROMPTIUM_DEFAULTS par esbuild.
+ * En développement (serve), on charge via fetch().
+ */
+async function loadDefaultData() {
+  /* global PROMPTIUM_DEFAULTS */
+  if (typeof PROMPTIUM_DEFAULTS !== 'undefined') {
+    return PROMPTIUM_DEFAULTS;
+  }
+  try {
+    const response = await fetch('./data/default-prompts.json');
+    return await response.json();
+  } catch {
+    return null;
+  }
+}
 
 /**
  * Fonction d'initialisation principale.
  * Appelée une fois le DOM entièrement chargé.
  */
-function init() {
+async function init() {
   // Exécuter les migrations de schéma
   migrate();
 
-  // Charger les prompts et catégories par défaut depuis le JSON embarqué
-  loadDefaults(defaultData);
+  // Charger les prompts et catégories par défaut
+  const defaultData = await loadDefaultData();
+  if (defaultData) loadDefaults(defaultData);
 
   // Restaurer la langue sauvegardée
   const prefs = getPreferences();
@@ -165,7 +183,8 @@ function initSaveButton() {
         title: result.title,
         content,
         categoryId: result.categoryId,
-        tags: result.tags
+        tags: result.tags,
+        lang: getLang()
       });
 
       showToast(t('toast_saved'));
@@ -186,8 +205,32 @@ function initExportImport() {
   const btnImport = document.getElementById('btn-import');
 
   if (btnExport) {
-    btnExport.addEventListener('click', () => {
+    btnExport.addEventListener('click', async () => {
+      // Si le builder contient du texte non sauvegardé, proposer de sauvegarder d'abord
+      if (hasContent() && !getEditingPromptId()) {
+        const userPrompts = getAll('prompts');
+        if (userPrompts.length === 0) {
+          // Aucun prompt sauvegardé — sauvegarder le builder automatiquement
+          const categories = getAllCategories();
+          const result = await showSaveForm(categories, getLang());
+          if (result) {
+            createPrompt({
+              title: result.title,
+              content: getFieldValues(),
+              categoryId: result.categoryId,
+              tags: result.tags
+            });
+            renderPromptList();
+          }
+        }
+      }
+
       const json = exportToJSON();
+      const data = JSON.parse(json);
+      if (data.prompts.length === 0) {
+        showToast(t('toast_empty'));
+        return;
+      }
       downloadFile(json);
       showToast(t('toast_export_done'));
     });

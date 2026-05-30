@@ -5,7 +5,9 @@
     { "id": "cat-marketing", "name": { "fr": "Marketing", "en": "Marketing" }, "isDefault": true, "order": 2 },
     { "id": "cat-dev", "name": { "fr": "Développement", "en": "Development" }, "isDefault": true, "order": 3 },
     { "id": "cat-education", "name": { "fr": "Éducation", "en": "Education" }, "isDefault": true, "order": 4 },
-    { "id": "cat-business", "name": { "fr": "Business", "en": "Business" }, "isDefault": true, "order": 5 }
+    { "id": "cat-business", "name": { "fr": "Business", "en": "Business" }, "isDefault": true, "order": 5 },
+    { "id": "cat-perso", "name": { "fr": "Personnel", "en": "Personal" }, "isDefault": true, "order": 6 },
+    { "id": "cat-pro", "name": { "fr": "Professionnel", "en": "Professional" }, "isDefault": true, "order": 7 }
   ],
   "prompts": [
     {

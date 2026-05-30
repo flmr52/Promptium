@@ -126,6 +126,16 @@ describe('library', () => {
       expect(p.categoryId).toBeNull();
     });
 
+    it('stocke la langue du prompt (par défaut fr)', () => {
+      const p = createPrompt({ title: 'French' });
+      expect(p.lang).toBe('fr');
+    });
+
+    it('stocke la langue spécifiée', () => {
+      const p = createPrompt({ title: 'English', lang: 'en' });
+      expect(p.lang).toBe('en');
+    });
+
     it('persiste dans localStorage', () => {
       createPrompt({ title: 'Persisted' });
       expect(getUserPrompts()).toHaveLength(1);

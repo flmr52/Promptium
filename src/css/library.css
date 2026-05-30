@@ -176,6 +176,22 @@
   flex: 1;
 }
 
+/* Badge de langue (mini drapeaux SVG) */
+.card-lang {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  flex-shrink: 0;
+  margin-left: 0.375rem;
+}
+
+.card-flag {
+  width: 18px;
+  height: 12px;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
 /* Bouton étoile favori */
 .card-fav {
   background: none;
@@ -233,7 +249,13 @@
 /* Boutons d'action sous chaque carte */
 .card-actions {
   display: flex;
+  align-items: center;
   gap: 0.375rem;
+}
+
+/* Pousse le bouton supprimer à droite */
+.card-actions .card-delete {
+  margin-left: auto;
 }
 
 .card-btn {
@@ -252,6 +274,16 @@
   background: var(--accent-soft);
   color: var(--accent);
   border-color: rgba(91, 141, 238, 0.2);
+}
+
+.card-btn.card-delete {
+  padding: 0.3rem;
+  line-height: 0;
+}
+
+.card-btn.card-delete svg {
+  width: 14px;
+  height: 14px;
 }
 
 .card-btn.card-delete:hover {

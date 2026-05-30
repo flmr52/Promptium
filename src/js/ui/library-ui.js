@@ -153,6 +153,22 @@ export function renderPromptList() {
 }
 
 /**
+ * Génère le(s) badge(s) de langue (mini drapeaux SVG) pour une carte de prompt.
+ * Les prompts par défaut sont bilingues (FR+EN), les prompts utilisateur
+ * affichent la langue dans laquelle ils ont été rédigés.
+ */
+function buildLangBadge(prompt) {
+  const flagFR = `<svg class="card-flag" viewBox="0 0 36 24" title="Français"><rect width="12" height="24" fill="#002395"/><rect x="12" width="12" height="24" fill="#fff"/><rect x="24" width="12" height="24" fill="#ED2939"/></svg>`;
+  const flagEN = `<svg class="card-flag" viewBox="0 0 60 30" title="English"><clipPath id="cf-s"><path d="M0,0 v30 h60 v-30 z"/></clipPath><clipPath id="cf-t"><path d="M30,15 h30 v15 z v15 h-30 z h-30 v-15 z v-15 h30 z"/></clipPath><g clip-path="url(#cf-s)"><path d="M0,0 v30 h60 v-30 z" fill="#012169"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6"/><path d="M0,0 L60,30 M60,0 L0,30" clip-path="url(#cf-t)" stroke="#C8102E" stroke-width="4"/><path d="M30,0 v30 M0,15 h60" stroke="#fff" stroke-width="10"/><path d="M30,0 v30 M0,15 h60" stroke="#C8102E" stroke-width="6"/></g></svg>`;
+
+  if (prompt.isDefault) {
+    return `<span class="card-lang">${flagFR}${flagEN}</span>`;
+  }
+  const langCode = prompt.lang || 'fr';
+  return `<span class="card-lang">${langCode === 'en' ? flagEN : flagFR}</span>`;
+}
+
+/**
  * Génère le HTML d'une carte de prompt.
  */
 function buildPromptCard(prompt, lang) {
@@ -175,6 +191,10 @@ function buildPromptCard(prompt, lang) {
   // Badge "par défaut"
   const defaultBadge = prompt.isDefault ? '<span class="card-badge">défaut</span>' : '';
 
+  // Badge(s) de langue : les prompts par défaut sont bilingues (FR+EN),
+  // les prompts utilisateur affichent la langue dans laquelle ils ont été écrits
+  const langBadge = buildLangBadge(prompt);
+
   // Tags
   const tagsHtml = (prompt.tags || []).slice(0, 3)
     .map(tag => `<span class="card-tag">${tag}</span>`)
@@ -184,6 +204,7 @@ function buildPromptCard(prompt, lang) {
     <div class="prompt-card" data-prompt-id="${prompt.id}">
       <div class="card-top">
         <span class="card-title">${title}</span>
+        ${langBadge}
         <button class="card-fav ${favClass}" data-fav-id="${prompt.id}" title="Favori">${favIcon}</button>
       </div>
       <div class="card-meta">
@@ -193,7 +214,7 @@ function buildPromptCard(prompt, lang) {
       </div>
       <div class="card-actions">
         <button class="card-btn card-load" data-load-id="${prompt.id}">${t('btn_generate')}</button>
-        ${!prompt.isDefault ? `<button class="card-btn card-delete" data-delete-id="${prompt.id}">${t('btn_delete')}</button>` : ''}
+        ${!prompt.isDefault ? `<button class="card-btn card-delete" data-delete-id="${prompt.id}" title="${t('btn_delete')}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3,6 5,6 21,6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></button>` : ''}
       </div>
     </div>
   `;
