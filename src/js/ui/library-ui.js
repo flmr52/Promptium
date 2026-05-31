@@ -82,7 +82,7 @@ export function initLibrary() {
 function initDrawer() {
   const drawer = document.getElementById('drawer');
   const overlay = document.getElementById('drawer-overlay');
-  const btnOpen = document.getElementById('btn-open-library');
+  const btnOpen = document.getElementById('btn-open-library-mobile');
   const btnFab = document.getElementById('btn-fab-library');
   const btnClose = document.getElementById('btn-close-library');
 

@@ -43,11 +43,6 @@
       </div>
 
       <div class="header-actions">
-        <!-- Bouton d'ouverture de la bibliothèque (drawer) -->
-        <button class="btn-icon" id="btn-open-library" title="Bibliothèque" aria-label="Ouvrir la bibliothèque">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
-        </button>
-
         <!-- Sélecteur de langue : drapeaux FR et EN -->
         <div class="lang-flags" role="group" aria-label="Sélection de langue">
         <button class="active" id="lang-fr" title="Français" aria-pressed="true">
@@ -147,22 +142,27 @@
       </button>
       <!-- Effacer tous les champs -->
       <button class="btn btn-ghost" id="btn-clear" data-i18n="btn_clear">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="8" height="16" rx="2" transform="rotate(35 13 10)"/><line x1="7.5" y1="11.5" x2="15" y2="5.5"/><line x1="7" y1="19" x2="11" y2="19"/><line x1="8" y1="21" x2="12" y2="21"/><line x1="9" y1="23" x2="13" y2="23"/></svg>
         Effacer
       </button>
     </div>
 
-    <!-- ======================== BOUTONS EXPORT / IMPORT ======================== -->
-    <div class="actions actions-secondary">
-      <!-- Exporter la bibliothèque en fichier JSON -->
-      <button class="btn btn-ghost" id="btn-export" data-i18n="btn_export">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Exporter
+    <!-- ======================== BIBLIOTHÈQUE + EXPORT/IMPORT ======================== -->
+    <div class="actions-library">
+      <button class="btn btn-primary" id="btn-open-library-mobile" data-i18n="btn_library">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+        Bibliothèque
       </button>
-      <!-- Importer un fichier JSON -->
-      <button class="btn btn-ghost" id="btn-import" data-i18n="btn_import">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17,8 12,3 7,8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-        Importer
-      </button>
+      <div class="actions-library-io">
+        <button class="btn btn-ghost" id="btn-export" data-i18n="btn_export">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Exporter
+        </button>
+        <button class="btn btn-ghost" id="btn-import" data-i18n="btn_import">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17,8 12,3 7,8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Importer
+        </button>
+      </div>
     </div>
 
     <!-- ======================== ZONE DE RÉSULTAT ======================== -->

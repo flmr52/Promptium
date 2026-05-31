@@ -44,7 +44,8 @@ createServer((req, res) => {
 
   res.writeHead(200, {
     'Content-Type': mime + '; charset=utf-8',
-    'Access-Control-Allow-Origin': '*'
+    'Access-Control-Allow-Origin': '*',
+    'Cache-Control': 'no-store'
   });
   res.end(readFileSync(filePath));
 }).listen(PORT, () => {

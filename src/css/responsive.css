@@ -27,6 +27,18 @@
   .actions { flex-direction: column; }
   .btn { width: 100%; justify-content: center; }
 
+  /* Bibliothèque + import/export empilés sur phones portrait */
+  .actions-library {
+    flex-wrap: wrap;
+  }
+  .actions-library > .btn {
+    flex: 1 1 100%;
+  }
+  .actions-library-io {
+    flex: 1 1 100%;
+  }
+
+
   /* Drawer pleine largeur sur mobile */
   .drawer { width: 100%; max-width: 100%; }
 
@@ -34,3 +46,4 @@
   .modal { max-width: 100%; }
 
 }
+

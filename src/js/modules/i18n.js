@@ -51,6 +51,7 @@ const translations = {
     btn_update: "Mettre à jour",
     btn_cancel: "Annuler",
     btn_delete: "Supprimer",
+    btn_library: "Bibliothèque",
     btn_export: "Exporter",
     btn_import: "Importer",
 
@@ -134,6 +135,7 @@ const translations = {
     btn_update: "Update",
     btn_cancel: "Cancel",
     btn_delete: "Delete",
+    btn_library: "Library",
     btn_export: "Export",
     btn_import: "Import",
 

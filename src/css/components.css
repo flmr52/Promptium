@@ -17,6 +17,11 @@
   flex-wrap: wrap;        /* Retour à la ligne si pas assez de place */
 }
 
+.actions .btn {
+  flex: 1;
+  justify-content: center;
+}
+
 /* ======================== BOUTONS ======================== */
 
 /* Style de base commun à tous les boutons */
@@ -79,11 +84,31 @@
   border-color: rgba(239, 68, 68, 0.3);
 }
 
-/* Rangée secondaire de boutons (export/import) */
-.actions-secondary {
-  margin-top: 0.5rem;
-  padding-top: 0.5rem;
+/* Bloc bibliothèque + export/import — en ligne par défaut */
+.actions-library {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
   border-top: 1px solid var(--border);
+}
+
+.actions-library > .btn {
+  flex: 0 1 auto;
+  justify-content: center;
+}
+
+.actions-library-io {
+  display: flex;
+  gap: 0.5rem;
+  flex: 1 1 auto;
+}
+
+.actions-library-io .btn {
+  flex: 1;
+  justify-content: center;
 }
 
 /* ======================== TOAST (NOTIFICATION) ======================== */

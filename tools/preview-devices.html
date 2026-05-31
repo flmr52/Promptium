@@ -14,6 +14,7 @@ h1 { text-align: center; margin-bottom: 20px; font-size: 1.4rem; color: #a78bfa;
 }
 .controls button:hover { background: #3d3d54; }
 .controls button.active { background: #a78bfa; color: #1a1a2e; }
+.controls-group { display: inline-flex; gap: 4px; margin: 0 12px; }
 .devices { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; align-items: flex-start; }
 .device {
   background: #2d2d44; border-radius: 12px; padding: 12px;
@@ -23,14 +24,24 @@ h1 { text-align: center; margin-bottom: 20px; font-size: 1.4rem; color: #a78bfa;
   text-align: center; margin-bottom: 8px; font-size: 0.85rem; color: #aaa;
 }
 .device-header strong { color: #e0e0e0; }
+.device-header .orientation-badge {
+  display: inline-block; font-size: 0.7rem; padding: 1px 6px;
+  border-radius: 3px; background: #3d3d54; color: #a78bfa; margin-left: 4px;
+}
 iframe { border: 2px solid #444; border-radius: 8px; background: #fff; }
 </style>
 </head>
 <body>
 <h1>Promptium — Preview Multi-Devices</h1>
 <div class="controls">
-  <button onclick="loadSource('src')" class="active">Source (dev)</button>
-  <button onclick="loadSource('dist')">Build (dist)</button>
+  <span class="controls-group">
+    <button onclick="loadSource('src')" id="btn-src" class="active">Source (dev)</button>
+    <button onclick="loadSource('dist')" id="btn-dist">Build (dist)</button>
+  </span>
+  <span class="controls-group">
+    <button onclick="setOrientation('portrait')" id="btn-portrait" class="active">Portrait</button>
+    <button onclick="setOrientation('landscape')" id="btn-landscape">Paysage</button>
+  </span>
 </div>
 <div class="devices" id="devices"></div>
 <script>
@@ -44,27 +55,41 @@ const DEVICES = [
 ];
 
 let currentSource = 'src';
+let currentOrientation = 'portrait';
 
 function getSrc() {
-  if (currentSource === 'dist') return '/dist/index.html';
-  return '/src/index.html';
+  const cacheBust = '?t=' + Date.now();
+  if (currentSource === 'dist') return '/dist/index.html' + cacheBust;
+  return '/src/index.html' + cacheBust;
 }
 
 function render() {
   const container = document.getElementById('devices');
   container.innerHTML = '';
   DEVICES.forEach(d => {
-    const scale = Math.min(1, 400 / d.w);
+    let w, h;
+    if (d.name === 'Desktop') {
+      w = d.w; h = d.h;
+    } else if (currentOrientation === 'landscape') {
+      w = Math.max(d.w, d.h);
+      h = Math.min(d.w, d.h);
+    } else {
+      w = Math.min(d.w, d.h);
+      h = Math.max(d.w, d.h);
+    }
+
+    const scale = Math.min(1, 400 / w);
+    const orient = w > h ? 'paysage' : 'portrait';
     const div = document.createElement('div');
     div.className = 'device';
     div.innerHTML = `
-      <div class="device-header"><strong>${d.name}</strong><br>${d.w}×${d.h}</div>
+      <div class="device-header"><strong>${d.name}</strong><span class="orientation-badge">${orient}</span><br>${w}&times;${h}</div>
       <iframe src="${getSrc()}"
-        width="${d.w}" height="${d.h}"
+        width="${w}" height="${h}"
         style="transform: scale(${scale}); transform-origin: top left;
-               width: ${d.w}px; height: ${d.h}px;
-               display: block; margin-bottom: ${-(d.h * (1 - scale))}px;
-               margin-right: ${-(d.w * (1 - scale))}px;">
+               width: ${w}px; height: ${h}px;
+               display: block; margin-bottom: ${-(h * (1 - scale))}px;
+               margin-right: ${-(w * (1 - scale))}px;">
       </iframe>
     `;
     container.appendChild(div);
@@ -73,8 +98,15 @@ function render() {
 
 function loadSource(src) {
   currentSource = src;
-  document.querySelectorAll('.controls button').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
+  document.getElementById('btn-src').classList.toggle('active', src === 'src');
+  document.getElementById('btn-dist').classList.toggle('active', src === 'dist');
+  render();
+}
+
+function setOrientation(orient) {
+  currentOrientation = orient;
+  document.getElementById('btn-portrait').classList.toggle('active', orient === 'portrait');
+  document.getElementById('btn-landscape').classList.toggle('active', orient === 'landscape');
   render();
 }
 
