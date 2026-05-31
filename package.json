@@ -1,6 +1,6 @@
 {
   "name": "promptium",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Promptium — Boost your AI. Prompt library & C.R.A.F.T. builder.",
   "type": "module",
   "scripts": {

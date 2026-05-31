@@ -39,6 +39,11 @@
   }
 
 
+  /* Drapeaux de langue empilés verticalement */
+  .lang-flags {
+    flex-direction: column;
+  }
+
   /* Drawer pleine largeur sur mobile */
   .drawer { width: 100%; max-width: 100%; }
 

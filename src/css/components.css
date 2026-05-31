@@ -96,7 +96,7 @@
 }
 
 .actions-library > .btn {
-  flex: 0 1 auto;
+  flex: 1;
   justify-content: center;
 }
 

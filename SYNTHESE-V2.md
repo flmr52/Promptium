@@ -75,3 +75,4 @@ Basee sur les tarifs API Claude Opus 4 : $15/M tokens input, $75/M tokens output
 | 7 | Suppression/restauration prompts par defaut | ~40 min |
 | 8 | Drawer lateral, fix favoris, ajustements visuels | ~40 min |
 | 9 | Responsive mobile (textareas), outil preview multi-devices | ~20 min |
+| 10 | UI bouton bibliothèque, layout adaptatif portrait/paysage, icône gomme, description C.R.A.F.T. | ~30 min |
