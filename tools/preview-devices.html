@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Promptium — Device Preview</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #1a1a2e; color: #e0e0e0; font-family: system-ui, sans-serif; padding: 20px; }
+h1 { text-align: center; margin-bottom: 20px; font-size: 1.4rem; color: #a78bfa; }
+.controls { text-align: center; margin-bottom: 20px; }
+.controls button {
+  background: #2d2d44; border: 1px solid #444; color: #e0e0e0;
+  padding: 8px 16px; margin: 4px; border-radius: 6px; cursor: pointer;
+}
+.controls button:hover { background: #3d3d54; }
+.controls button.active { background: #a78bfa; color: #1a1a2e; }
+.devices { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; align-items: flex-start; }
+.device {
+  background: #2d2d44; border-radius: 12px; padding: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+.device-header {
+  text-align: center; margin-bottom: 8px; font-size: 0.85rem; color: #aaa;
+}
+.device-header strong { color: #e0e0e0; }
+iframe { border: 2px solid #444; border-radius: 8px; background: #fff; }
+</style>
+</head>
+<body>
+<h1>Promptium — Preview Multi-Devices</h1>
+<div class="controls">
+  <button onclick="loadSource('src')" class="active">Source (dev)</button>
+  <button onclick="loadSource('dist')">Build (dist)</button>
+</div>
+<div class="devices" id="devices"></div>
+<script>
+const DEVICES = [
+  { name: 'iPhone 12/13', w: 390, h: 844 },
+  { name: 'Desktop', w: 1280, h: 800 },
+  { name: 'iPhone SE', w: 375, h: 667 },
+  { name: 'Galaxy S25 FE', w: 412, h: 915 },
+  { name: 'Samsung Tab S5e', w: 800, h: 1280 },
+  { name: 'iPad Mini', w: 768, h: 1024 },
+];
+
+let currentSource = 'src';
+
+function getSrc() {
+  if (currentSource === 'dist') return '/dist/index.html';
+  return '/src/index.html';
+}
+
+function render() {
+  const container = document.getElementById('devices');
+  container.innerHTML = '';
+  DEVICES.forEach(d => {
+    const scale = Math.min(1, 400 / d.w);
+    const div = document.createElement('div');
+    div.className = 'device';
+    div.innerHTML = `
+      <div class="device-header"><strong>${d.name}</strong><br>${d.w}×${d.h}</div>
+      <iframe src="${getSrc()}"
+        width="${d.w}" height="${d.h}"
+        style="transform: scale(${scale}); transform-origin: top left;
+               width: ${d.w}px; height: ${d.h}px;
+               display: block; margin-bottom: ${-(d.h * (1 - scale))}px;
+               margin-right: ${-(d.w * (1 - scale))}px;">
+      </iframe>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function loadSource(src) {
+  currentSource = src;
+  document.querySelectorAll('.controls button').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  render();
+}
+
+render();
+</script>
+</body>
+</html>
