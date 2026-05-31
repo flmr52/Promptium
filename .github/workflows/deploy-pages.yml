@@ -45,9 +45,10 @@ jobs:
 
       - name: Build site structure
         run: |
-          mkdir -p _site/v1
+          mkdir -p _site/v1 _site/v2
           cp dev-src/dist/index.html _site/index.html
           cp stable/index.html _site/v1/index.html
+          cp dev-src/dist/index.html _site/v2/index.html
           rm -rf _site/.git _site/.github
 
       - name: Upload Pages artifact
